@@ -1,0 +1,7 @@
+{
+    "workbench.editor.customLabels.patterns": {
+        "**/packages/**/src/**": "${dirname(1)}/${filename}.${extname}",
+        "**/packages/**/*": "${dirname(0)}/${filename}.${extname}",
+        "**/web/**": "web/${filename}.${extname}"
+    }
+}

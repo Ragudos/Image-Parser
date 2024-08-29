@@ -1,0 +1,31 @@
+name: Run Tests
+
+on:
+    push:
+        branches:
+            - main
+            - "feature/*" # Adjust as needed for your branches
+    pull_request:
+        branches:
+            - main
+            - "feature/*" # Adjust as needed for your branches
+    # You can add other events if needed, such as schedule
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "14" # Adjust the Node.js version as needed
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run tests
+              run: npm test # Adjust if your test script is named differently

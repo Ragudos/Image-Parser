@@ -1,0 +1,44 @@
+{
+  "name": "image-parser",
+  "version": "1.0.0",
+  "description": "An image parser that also includes ASCII conversion and stuff.",
+  "private": "true",
+  "workspaces": [
+    "packages/*",
+    "web"
+  ],
+  "devDependencies": {
+    "docdash": "^2.0.2",
+    "eslint": "^9.9.1",
+    "eslint-plugin-jsdoc": "^50.2.2",
+    "eslint-plugin-prettier": "^5.2.1",
+    "jsdoc": "^4.0.3",
+    "jsdoc-to-markdown": "^8.0.3",
+    "lerna": "^8.1.8",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4"
+  },
+  "scripts": {
+    "build": "npm run build:types && lerna run build",
+    "build:types": "lerna run build:types",
+    "clean": "lerna run clean",
+    "lint": "lerna run lint",
+    "typecheck": "lerna run typecheck",
+    "lint:fix": "lerna run lint:fix",
+    "format": "lerna run format",
+    "docs": "jsdoc -c jsdoc.json && jsdoc2md --files packages/utils/src/**/*.js packages/core/src/**/*.js  > docs/API.md",
+    "test": "lerna run test"
+  },
+  "keywords": [
+    "Image parsing"
+  ],
+  "author": {
+    "email": "workemailaaronragudos@gmail.com",
+    "name": "Aaron Ragudos"
+  },
+  "repository": {
+    "url": "https://github.com/Ragudos/Image-Parser.git",
+    "type": "Github"
+  },
+  "license": "CC BY 4.0"
+}

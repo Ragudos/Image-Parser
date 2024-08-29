@@ -1,0 +1,28 @@
+{
+    "files": [],
+    "references": [
+        { "path": "./packages/core" },
+        { "path": "./packages/utils" },
+        { "path": "./web" }
+    ],
+    "compilerOptions": {
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "allowJs": true,
+        "checkJs": true,
+        "sourceMap": false,
+        "module": "CommonJS",
+        "target": "ES2020",
+        "moduleResolution": "Node",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "baseUrl": ".",
+    },
+    "exclude": [
+        "node_modules/",
+        "dist/",
+        "build/",
+        "__tests__/"
+    ]
+}
