@@ -3,11 +3,11 @@ name: Run Tests
 on:
     push:
         branches:
-            - main
+            - master
             - "feature/*" # Adjust as needed for your branches
     pull_request:
         branches:
-            - main
+            - master
             - "feature/*" # Adjust as needed for your branches
     # You can add other events if needed, such as schedule
 
