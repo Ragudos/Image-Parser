@@ -33,6 +33,5 @@ jobs:
               uses: peaceiris/actions-gh-pages@v3
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./docs # Adjust this if your build output is in a different directory
-                  publish_branch: gh-pages # Branch where GitHub Pages is deployed
-
+                  publish_dir: ./docs # Directory containing the built documentation
+                  publish_branch: gh-pages # The branch used for GitHub Pages
