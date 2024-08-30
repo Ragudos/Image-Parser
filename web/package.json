@@ -9,7 +9,7 @@
     "build:types": "tsc",
     "lint": "lint ./src",
     "lint:fix": "lint ./src --fix",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
     "format": "prettier --write ./src"
   },
   "devDependencies": {
