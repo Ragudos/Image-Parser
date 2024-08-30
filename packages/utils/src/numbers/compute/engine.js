@@ -130,24 +130,27 @@ function isSignedShort(num) {
 }
 
 /**
- * #isSignedInt(num)
+ * # isSignedInt(num)
  *
  * Checks whether `num` is a 32-bit signed integer
  *
  * ## How it works
  *
- * Unlike {@link isSignedByte} and {@link isSignedShort}, we just compare
- * `num` with {@link MIN_INT_32BIT} and {@link MAX_INT_32BIT}.
+ * This function uses the OR (|) bitwise operator. This is the same as the
+ * OR (||) logical operator, except that it returns either 0 or 1. Then,
+ * this compares if the result is still the same as `num`.
  *
  * ### Why?
  *
- * JavaScript integers are 32-bits in memory.
+ * This works because all bitwise operations in JavaScript will convert the operands to a 32-bit signed integer when doing them.
+ * A 32-bit signed integer has the range of `-2^31` to `2^31 - 1`, while a 32-bit unsigned integer has the range of `0` to `2^32 - 1`.
+ * So, if `num` is higher than {@link MAX_INT_32BIT}, doing `num | 0` will flip the bits instead, resulting in a possibly negative number.
  *
  * @param {number} num
  * @returns {boolean}
  */
 function isSignedInt(num) {
-	return num >= MIN_INT_32BIT && num <= MAX_INT_32BIT;
+	return num === (num | 0);
 }
 
 /**

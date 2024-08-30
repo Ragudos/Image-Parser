@@ -57,8 +57,10 @@ describe("Functions in utils/numbers/compute/engine work when", () => {
 
 		it("recognizes a 32-bit signed integer when using isSignedInt()", () => {
 			expect(isSignedInt(MAX_UINT_32BIT)).toBeFalsy();
+			expect(isSignedInt(MIN_INT_32BIT - 1)).toBeFalsy();
 			expect(isSignedInt(MAX_INT_32BIT)).toBeTruthy();
 			expect(isSignedInt(MIN_INT_32BIT)).toBeTruthy();
+			expect(isSignedInt(0)).toBeTruthy();
 		});
 
 		it("recognizes an 8-bit unsigned integer when using isUnsignedByte()", () => {
