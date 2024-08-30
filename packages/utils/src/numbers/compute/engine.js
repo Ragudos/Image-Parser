@@ -23,11 +23,11 @@ const { MAX_INT_32BIT, MIN_INT_32BIT } = require("../const");
  */
 
 /**
- * @typedef {"int8" | "int16" | "int32" | "int64" | "uint8" | "uint16" | "uint32" | "uint64"} NumberType
+ * @typedef {"int8" | "int16" | "int24" | "int32" | "int64" | "uint8" | "uint16" | "uint24" | "uint32" | "uint64"} NumberType
  */
 
 /**
- * # isSignedByte(num)
+ * # isSignedByte
  *
  * Checks whether `num` is an 8-bit signed integer
  *
@@ -37,6 +37,9 @@ const { MAX_INT_32BIT, MIN_INT_32BIT } = require("../const");
  * Then, checks if the resulting value is still equal to `num`.
  *
  * ### Why?
+ *
+ * Well, knowing how to do bitwise operations, albeit not great in JavaScript, is useful to get used to for
+ * programming in low-level languages.
  *
  * First, we need to know the binary/bit representation of numbers in
  * memory. For example, `-128` and `-129`
@@ -130,7 +133,38 @@ function isSignedShort(num) {
 }
 
 /**
- * #isSignedInt(num)
+ * # isSigned24Bit
+ *
+ * Checks whether `num` is a 24-bit signed integer
+ *
+ * ## How it works
+ *
+ * Shift `num` to the left by `8` bits and back to the right by `8` bits. Now, since integers in JavaScript are
+ * 32-bit ints, the original value of `num` would then be lost. So, to know if `num` is a 24-bit signed integer,
+ * we compare the result to `num`.
+ *
+ * | Value                | Binary                             |
+ * | -------------------- | ---------------------------------- |
+ * | 8388607              | 0b00000000011111111111111111111111 |
+ *
+ * See how it will work? Now, let's check the bit representation of {@link MAX_INT_24BIT},
+ *
+ * | Value                | Binary                             |
+ * | -------------------- | ---------------------------------- |
+ * | 8388608              | 0b00000000100000000000000000000000 |
+ *
+ * @param {number} num
+ * @returns {boolean}
+ *
+ * @see {@link https://www.w3schools.com/js/js_bitwise.asp}
+ * @see {@link isSignedByte}
+ */
+function isSigned24Bit(num) {
+	return (num << 8) >> 8 === num;
+}
+
+/**
+ * #isSignedInt
  *
  * Checks whether `num` is a 32-bit signed integer
  *
@@ -147,67 +181,35 @@ function isSignedShort(num) {
  * @returns {boolean}
  */
 function isSignedInt(num) {
-	return num >= MIN_INT_32BIT && num <= MAX_INT_32BIT;
+	return num === (num | 0);
 }
 
 /**
- * # isUnsignedByte(num)
- *
- * Checks whether `num` is an 8-bit unsigned integer.
- *
- * ## How it works
- *
- * Applies the AND (&) bitwise operator to `num` and `0xffff00`; then,
- * compares the result to `0`.
- *
- * The AND (&) bitwise operator is somewhat the same
- * as the AND (&&) logical operator; wherein, it will return true if both
- * operands are true and have it be 1, while 0 otherwise.
- *
- * The right-hand side can be considered as a `mask`.
- *
- * ### Why?
- *
- * First, we must know the value of `0xffff00` in binary/bits.
- *
- * ```javascript
- * 0xffff00 // 0b00000000111111111111111100000000
- * 255 // 0b00000000000000000000000011111111
- * 256 // 0b00000000000000000000000100000000
- * ```
- * See the differences? Now, let's perform the AND (&) bitwise operation
- *
- * `255 & 0xffff00`
- *
- * | Operation             | Value    | Binary                             |
- * | --------------------- | -----    | ---------------------------------- |
- * | Original Value        | 255      | 0b00000000000000000000000011111111 |
- * | Mask                  | 0xffff00 | 0b00000000111111111111111100000000 |
- * | Original Value & Mask | 0        | 0b00000000000000000000000000000000 |
- *
  * @param {number} num
  * @returns {boolean}
  *
  * @see {@link https://www.w3schools.com/js/js_bitwise.asp}
  */
 function isUnsignedByte(num) {
-	return (num & 0xffff00) === 0;
+	return (num & 0xff) === num;
 }
 
 /**
- * # isUnsignedShort
- *
- * Checks whether `num` is a 16-bit unsigned integer
- *
- * ## How it works
- *
- * The same as {@link isUnsignedByte}, but instead uses `0xff0000` as the `mask`.
  *
  * @param {number} num
  * @returns {boolean}
  */
 function isUnsignedShort(num) {
-	return (num & 0xff0000) === 0;
+	return (num & 0xffff) === num;
+}
+
+/**
+ *
+ * @param {number} num
+ * @returns {boolean}
+ */
+function isUnsigned24Bit(num) {
+	return (num & 0xffffff) === num;
 }
 
 /**
@@ -240,6 +242,14 @@ function getNumberType(num) {
 		return "uint16";
 	}
 
+	if (isSigned24Bit(num)) {
+		return "int24";
+	}
+
+	if (isUnsigned24Bit(num)) {
+		return "uint24";
+	}
+
 	if (isSignedInt(num)) {
 		return "int32";
 	}
@@ -254,8 +264,10 @@ function getNumberType(num) {
 module.exports = {
 	isSignedByte,
 	isSignedShort,
+	isSigned24Bit,
 	isSignedInt,
 	isUnsignedByte,
 	isUnsignedShort,
+	isUnsigned24Bit,
 	getNumberType,
 };
