@@ -13,6 +13,7 @@
  * @module utils/debug/errors
  */
 
+/** */
 class UnsupportedError extends Error {
 	/**
 	 * @param {string} [message]
