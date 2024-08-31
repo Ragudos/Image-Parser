@@ -210,7 +210,7 @@ function int8ToBytes(num, skipCheck) {
  * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
- * @returns {[number, number]}
+ * @returns {Array<number>}
  *
  * @throws {RangeError} if `num` is not int16 when checked
  */
@@ -238,7 +238,7 @@ function int16ToBytes(num, skipCheck, littleEndian) {
  * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
- * @returns {[number, number]}
+ * @returns {Array<number>}
  *
  * @throws {RangeError} if `num` is not uint16
  */
@@ -265,7 +265,7 @@ function uint16ToBytes(num, skipCheck, littleEndian) {
  * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
- * @returns {[number, number, number]}
+ * @returns {Array<number>}
  *
  * @throws {RangeError} if `num` is not int24
  */
@@ -295,7 +295,7 @@ function int24ToBytes(num, skipCheck, littleEndian) {
  * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
- * @returns {[number, number, number]}
+ * @returns {Array<number>}
  *
  * @throws {RangeError} if `num` is not int24
  */
@@ -323,7 +323,7 @@ function uint24ToBytes(num, skipCheck, littleEndian) {
  * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
- * @returns {[number, number, number, number]}
+ * @returns {Array<number>}
  *
  * @throws {RangeError} if `num` is not int32 when checked
  */
@@ -352,7 +352,7 @@ function int32ToBytes(num, skipCheck, littleEndian) {
  * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
- * @returns {[number, number, number, number]}
+ * @returns {Array<number>}
  *
  * @throws {RangeError} if `num` is not uint32 when checked
  */
