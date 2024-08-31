@@ -179,8 +179,8 @@ function isSigned24Bit(num) {
  *
  * ## How it works
  *
- * Unlike {@link isSignedByte} and {@link isSignedShort}, we just compare
- * `num` with {@link MIN_INT_32BIT} and {@link MAX_INT_32BIT}.
+ * Since `num | 0` will try to convert it to a 32-bit signed integer, we'll
+ * just compare the result to `num`.
  *
  * ### Why?
  *
