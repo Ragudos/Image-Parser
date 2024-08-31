@@ -15,7 +15,7 @@ export default [
 				...globals.commonjs,
 				...globals.es2020,
 				...globals.browser,
-			}
+			},
 		},
 		rules: {
 			curly: ["error", "all"],
@@ -27,7 +27,6 @@ export default [
 			"semi-style": ["error", "last"],
 			"jsdoc/require-jsdoc": "warn",
 			"jsdoc/require-returns": "warn",
-			"jsdoc/valid-types": "error",
 			"jsdoc/require-param-type": "error",
 			"jsdoc/require-param-name": "error",
 			"jsdoc/no-undefined-types": "error",

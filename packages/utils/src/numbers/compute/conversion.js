@@ -377,14 +377,15 @@ function uint32ToBytes(num, skipCheck, littleEndian) {
 
 /**
  *
- * @param {import("./engine").JsNumber} num
+ * @param {module:utils/numbers/compute/engine.JsNumber} num
+ * @param {module:utils/numbers/compute/engine.NumberType} [convertTo]
  * @param {boolean} [littleEndian]
  *
  * @returns {Array<number>}
  *
  * @throws {UnsupportedError | RangeError} if `num` exceeds the maximum value a 32-bit unsigned integer can hold, or an operation is unsupported.
  */
-function numToBytes(num, littleEndian) {
+function numToBytes(num, convertTo, littleEndian) {
 	if (typeof num === "bigint") {
 		throw new UnsupportedError();
 	}
@@ -393,7 +394,9 @@ function numToBytes(num, littleEndian) {
 		throw new RangeError();
 	}
 
-	switch (getNumberType(num)) {
+	const numberType = convertTo ? convertTo : getNumberType(num);
+
+	switch (numberType) {
 		case "int8":
 			return int8ToBytes(num, true);
 

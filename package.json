@@ -27,7 +27,7 @@
     "typecheck": "lerna run typecheck",
     "lint:fix": "lerna run lint:fix",
     "format": "lerna run format",
-    "docs": "jsdoc -c jsdoc.json && jsdoc2md --files packages/utils/src/**/*.js packages/core/src/**/*.js  > docs/API.md",
+    "docs": "jsdoc -c jsdoc.json && jsdoc2md --files packages/utils/src/**/*.js packages/core/src/**/*.js  > ./API.md",
     "test": "lerna run test"
   },
   "keywords": [
