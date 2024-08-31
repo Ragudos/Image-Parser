@@ -4,7 +4,12 @@ const {
 	bytesTo24BitUint,
 	bytesTo32BitUint,
 } = require("./conversion");
-const { MAX_UINT_16BIT, MAX_UINT_8BIT } = require("../const");
+const {
+	MAX_UINT_16BIT,
+	MAX_UINT_8BIT,
+	MAX_UINT_24BIT,
+	MAX_UINT_32BIT,
+} = require("../const");
 
 describe("Stuff in utils/numbers/compute/conversion works when", () => {
 	describe("it can recognize invalid input when", () => {
@@ -78,6 +83,32 @@ describe("Stuff in utils/numbers/compute/conversion works when", () => {
 			expect(bytesTo16BitUint(0, 255, true)).toBe(65280);
 			expect(bytesTo16BitUint(0, 1, true)).toBe(MAX_UINT_8BIT + 1);
 			expect(bytesTo16BitUint(255, 255, true)).toBe(MAX_UINT_16BIT);
+		});
+
+		it("bytesTo24BitUint can convert a 24-bit uint array to its uint24 equivalent with Big-Endianness", () => {
+			expect(bytesTo24BitUint(255, 255, 0)).toBe(16776960);
+			expect(bytesTo24BitUint(1, 0, 0)).toBe(MAX_UINT_16BIT + 1);
+			expect(bytesTo24BitUint(255, 255, 255)).toBe(MAX_UINT_24BIT);
+		});
+
+		it("bytesTo24BitUint can convert a 24-bit uint array to its uint24 equivalent with Little-Endianness", () => {
+			expect(bytesTo24BitUint(0, 255, 255, true)).toBe(16776960);
+			expect(bytesTo24BitUint(0, 0, 1, true)).toBe(MAX_UINT_16BIT + 1);
+			expect(bytesTo24BitUint(255, 255, 255, true)).toBe(MAX_UINT_24BIT);
+		});
+
+		it("bytesTo24BitUint can convert a 24-bit uint array to its uint24 equivalent with Big-Endianness", () => {
+			expect(bytesTo32BitUint(255, 255, 255, 0)).toBe(4294967040);
+			expect(bytesTo32BitUint(1, 0, 0, 0)).toBe(MAX_UINT_24BIT + 1);
+			expect(bytesTo32BitUint(255, 255, 255, 255)).toBe(MAX_UINT_32BIT);
+		});
+
+		it("bytesTo24BitUint can convert a 24-bit uint array to its uint24 equivalent with Little-Endianness", () => {
+			expect(bytesTo32BitUint(0, 255, 255, 255, true)).toBe(4294967040);
+			expect(bytesTo32BitUint(0, 0, 0, 1, true)).toBe(MAX_UINT_24BIT + 1);
+			expect(bytesTo32BitUint(255, 255, 255, 255, true)).toBe(
+				MAX_UINT_32BIT
+			);
 		});
 	});
 });

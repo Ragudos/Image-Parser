@@ -24,6 +24,13 @@ const {
  * **Note**:
  * - Floating points are not supported
  *
+ * Operations used by this file:
+ * - `>>>` right shift and adding leading zeroes
+ * - `>>` right shift and adding the copy of leftmost bit
+ * - `<<` left shift
+ * - `|` OR operator
+ * - `&` AND operator
+ *
  * Bytes to number operations will shift
  * the most significant byte (MSB) in Big-Endian format, while
  * the least significant byte in Little-Endian format, to the left,
@@ -117,7 +124,7 @@ function bytesTo24BitUint(highestByte, midByte, lowestByte, littleEndian) {
  * @param {number} firstMidByte
  * @param {number} secondMidByte
  * @param {number} lowestByte
- * @param {number} [littleEndian]
+ * @param {boolean} [littleEndian]
  *
  * @returns {number}
  *
@@ -142,18 +149,20 @@ function bytesTo32BitUint(
 
 	if (littleEndian) {
 		return (
-			(lowestByte << 24) |
-			(secondMidByte << 16) |
-			(firstMidByte << 8) |
-			highestByte
+			((lowestByte << 24) |
+				(secondMidByte << 16) |
+				(firstMidByte << 8) |
+				highestByte) >>>
+			0
 		);
 	}
 
 	return (
-		(highestByte << 24) |
-		(firstMidByte << 16) |
-		(secondMidByte << 8) |
-		lowestByte
+		((highestByte << 24) |
+			(firstMidByte << 16) |
+			(secondMidByte << 8) |
+			lowestByte) >>>
+		0
 	);
 }
 
