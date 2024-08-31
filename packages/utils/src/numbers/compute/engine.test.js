@@ -71,8 +71,8 @@ describe("Stuff in utils/numbers/compute/engine work when", () => {
 			expect(isSignedByte(MAX_INT_8BIT)).toBeTruthy();
 
 			expect(isSignedByte(MIN_INT_16BIT)).toBeFalsy();
-			expect(isSignedByte(-20_000)).toBeFalsy();
-			expect(isSignedByte(30_000)).toBeFalsy();
+			expect(isSignedByte(-20000)).toBeFalsy();
+			expect(isSignedByte(30000)).toBeFalsy();
 			expect(isSignedByte(-129)).toBeFalsy();
 			expect(isSignedByte(128)).toBeFalsy();
 			expect(isSignedByte(-2000)).toBeFalsy();

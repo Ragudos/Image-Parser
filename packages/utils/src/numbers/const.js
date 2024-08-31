@@ -12,20 +12,20 @@
  * @module utils/numbers/const
  */
 
-const MAX_UINT_8BIT = 255;
-const MAX_UINT_16BIT = 65_535;
-const MAX_UINT_24BIT = 16_777_215;
-const MAX_UINT_32BIT = 4_294_967_295;
+const MAX_UINT_8BIT = 0xff;
+const MAX_UINT_16BIT = 0xffff;
+const MAX_UINT_24BIT = 0xffffff;
+const MAX_UINT_32BIT = 0xffffffff;
 const MAX_UINT_64BIT = BigInt("18446744073709551615");
-const MIN_INT_8BIT = -128;
-const MIN_INT_16BIT = -32_768;
-const MIN_INT_24BIT = -8_388_608;
-const MIN_INT_32BIT = -2_147_483_648;
+const MIN_INT_8BIT = -0x80;
+const MIN_INT_16BIT = -0x8000;
+const MIN_INT_24BIT = -0x800000;
+const MIN_INT_32BIT = -0x80000000;
 const MIN_INT_64BIT = BigInt("-9223372036854775808");
-const MAX_INT_8BIT = 127;
-const MAX_INT_16BIT = 32_767;
-const MAX_INT_24BIT = 8_388_607;
-const MAX_INT_32BIT = 2_147_483_647;
+const MAX_INT_8BIT = 0x7f;
+const MAX_INT_16BIT = 0x7fff;
+const MAX_INT_24BIT = 0x7fffff;
+const MAX_INT_32BIT = 0x7fffffff;
 const MAX_INT_64BIT = BigInt("9223372036854775807");
 
 module.exports = {

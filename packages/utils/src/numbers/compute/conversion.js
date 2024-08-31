@@ -396,20 +396,28 @@ function numToBytes(num, littleEndian) {
 	switch (getNumberType(num)) {
 		case "int8":
 			return int8ToBytes(num, true);
+
 		case "uint8":
 			return uint8ToBytes(num, true);
+
 		case "int16":
 			return int16ToBytes(num, true, littleEndian);
+
 		case "uint16":
 			return uint16ToBytes(num, true, littleEndian);
+
 		case "int24":
 			return int24ToBytes(num, true, littleEndian);
+
 		case "uint24":
 			return uint24ToBytes(num, true, littleEndian);
+
 		case "int32":
 			return int32ToBytes(num, true, littleEndian);
+
 		case "uint32":
 			return uint32ToBytes(num, true, littleEndian);
+
 		default:
 			throw new UnsupportedError();
 	}

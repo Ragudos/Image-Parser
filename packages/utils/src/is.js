@@ -14,44 +14,52 @@
 
 /**
  * @param {unknown} obj
- * @return {boolean}
+ * @returns {boolean}
  */
-exports.isPlainObject = function (obj) {
+function isPlainObject(obj) {
 	return (
 		typeof obj === "object" &&
 		!(obj instanceof Array) &&
 		obj instanceof Object
 	);
-};
+}
 
 /**
  * @param {unknown} obj
- * @return {boolean}
+ * @returns {boolean}
  */
-exports.isFunction = function (obj) {
+function isFunction(obj) {
 	return typeof obj === "function";
-};
+}
 
 /**
  * @param {unknown} obj
- * @return {boolean}
+ * @returns {boolean}
  */
-exports.isString = function (obj) {
+function isString(obj) {
 	return typeof obj === "string";
-};
+}
 
 /**
  * @param {unknown} obj
- * @return {boolean}
+ * @returns {boolean}
  */
-exports.isArray = function (obj) {
+function isArray(obj) {
 	return obj instanceof Array;
-};
+}
 
 /**
  * @param {unknown} obj
- * @return {boolean}
+ * @returns {boolean}
  */
-exports.isNumber = function (obj) {
+function isNumber(obj) {
 	return typeof obj === "number" && !isNaN(obj);
+}
+
+module.exports = {
+	isPlainObject,
+	isArray,
+	isFunction,
+	isNumber,
+	isString,
 };
