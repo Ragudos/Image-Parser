@@ -97,13 +97,13 @@ describe("Stuff in utils/numbers/compute/conversion works when", () => {
 			expect(bytesTo24BitUint(255, 255, 255, true)).toBe(MAX_UINT_24BIT);
 		});
 
-		it("bytesTo24BitUint can convert a 24-bit uint array to its uint24 equivalent with Big-Endianness", () => {
+		it("bytesTo32BitUint can convert a 24-bit uint array to its uint24 equivalent with Big-Endianness", () => {
 			expect(bytesTo32BitUint(255, 255, 255, 0)).toBe(4294967040);
 			expect(bytesTo32BitUint(1, 0, 0, 0)).toBe(MAX_UINT_24BIT + 1);
 			expect(bytesTo32BitUint(255, 255, 255, 255)).toBe(MAX_UINT_32BIT);
 		});
 
-		it("bytesTo24BitUint can convert a 24-bit uint array to its uint24 equivalent with Little-Endianness", () => {
+		it("bytesTo32BitUint can convert a 24-bit uint array to its uint24 equivalent with Little-Endianness", () => {
 			expect(bytesTo32BitUint(0, 255, 255, 255, true)).toBe(4294967040);
 			expect(bytesTo32BitUint(0, 0, 0, 1, true)).toBe(MAX_UINT_24BIT + 1);
 			expect(bytesTo32BitUint(255, 255, 255, 255, true)).toBe(
