@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>utils/numbers/compute/engine - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/Ragudos" target="_blank" class="menu-item" id="repository" >My GitHub</a></h2><h3>Classes</h3><ul><li><a href="module-utils_debug_errors-UnimplementedError.html">utils/debug/errors~UnimplementedError</a></li><li><a href="module-utils_debug_errors-UnsupportedError.html">utils/debug/errors~UnsupportedError</a></li></ul><h3>Modules</h3><ul><li><a href="module-core_png.html">core/png</a><ul class='members'><li data-type='member' style='display: none;'><a href="module-core_png.html#.PNG_SIGNATURE">PNG_SIGNATURE</a></li></ul></li><li><a href="module-utils_debug_assert.html">utils/debug/assert</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-utils_debug_assert.html#~assert">assert</a></li></ul></li><li><a href="module-utils_debug_errors.html">utils/debug/errors</a></li><li><a href="module-utils_is.html">utils/is</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-utils_is.html#~isArray">isArray</a></li><li data-type='method' style='display: none;'><a href="module-utils_is.html#~isFunction">isFunction</a></li><li data-type='method' style='display: none;'><a href="module-utils_is.html#~isNumber">isNumber</a></li><li data-type='method' style='display: none;'><a href="module-utils_is.html#~isPlainObject">isPlainObject</a></li><li data-type='method' style='display: none;'><a href="module-utils_is.html#~isString">isString</a></li></ul></li><li><a href="module-utils_numbers_compute_conversion.html">utils/numbers/compute/conversion</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~bytesTo16BitUint">bytesTo16BitUint</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~bytesTo24BitUint">bytesTo24BitUint</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~bytesTo32BitUint">bytesTo32BitUint</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~int16ToBytes">int16ToBytes</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~int24ToBytes">int24ToBytes</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~int32ToBytes">int32ToBytes</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~int8ToBytes">int8ToBytes</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~numToBytes">numToBytes</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~uint16ToBytes">uint16ToBytes</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~uint24ToBytes">uint24ToBytes</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~uint32ToBytes">uint32ToBytes</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_conversion.html#~uint8ToBytes">uint8ToBytes</a></li></ul></li><li><a href="module-utils_numbers_compute_engine.html">utils/numbers/compute/engine</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_engine.html#~getBitAt">getBitAt</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_engine.html#~getNumberType">getNumberType</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_engine.html#~isSigned24Bit">isSigned24Bit</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_engine.html#~isSignedByte">isSignedByte</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_engine.html#~isSignedInt">isSignedInt</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_engine.html#~isSignedShort">isSignedShort</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_engine.html#~isUnsigned24Bit">isUnsigned24Bit</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_engine.html#~isUnsignedByte">isUnsignedByte</a></li><li data-type='method' style='display: none;'><a href="module-utils_numbers_compute_engine.html#~isUnsignedShort">isUnsignedShort</a></li></ul></li><li><a href="module-utils_numbers_const.html">utils/numbers/const</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">utils/numbers/compute/engine</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description usertext"><p>All main operations for computations</p>
+<p><strong>Note</strong>:</p>
+<ul>
+<li>Floating points are not supported</li>
+</ul>
+<p>Functions in this file will use these bitwise operators:</p>
+<ul>
+<li><code>&lt;&lt;</code> left shift</li>
+<li><code>&gt;&gt;</code> right shift (signed, will use the leftmost bit when shifting, preserving the integer's sign).</li>
+<li><code>|</code> OR operator</li>
+<li><code>&amp;</code> AND operator</li>
+</ul>
+<p>Even though all numbers in JavaScript are 64-bit double precision
+floating points and converts operands of bitwise operations to int32.
+for bitwise operations to work properly, it would still be nice to
+check for a number's range (8-bit, 16-bit, etc.).</p>
+<p>It's still logical to use a custom <code>Integer</code> class and using strings, but for the
+sake of learning, I'm using bitwise operations if possible.</p>
+<p>To give an example for the operations of the functions in this file:</p>
+<p>isSignedByte will check whether a number is int8.</p>
+<p>Since all integers in JavaScript is 32-bit, this function will shift the number to the
+left <code>24</code> bits and back to the right by <code>24</code> bits.</p>
+<p>If the number is originally an 8-bit number, then the final result will still be
+itself; otherwise, its significant bits (bits information after the least 8 bits) is lost.</p>
+<p>Lastly, uint32 cannot be fully supported by JavaScript</p>
+<p>See the table below to compare the binary representation of specific numbers to understand
+how we can check their type using the mentioned operations:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Binary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(Maximum int24) 8388607</td>
+<td>0b00000000011111111111111111111111</td>
+</tr>
+<tr>
+<td>8388608</td>
+<td>0b00000000100000000000000000000000</td>
+</tr>
+<tr>
+<td>(Maximum uint8) 255</td>
+<td>0b00000000000000000000000011111111</td>
+</tr>
+<tr>
+<td>256</td>
+<td>0b00000000000000000000000100000000</td>
+</tr>
+<tr>
+<td>(Maximum int32) 2_147_483_647</td>
+<td>0b01111111111111111111111111111111</td>
+</tr>
+<tr>
+<td>(Maximum uint32) 4_294_967_295</td>
+<td>0b1111111111111111111111111111111</td>
+</tr>
+<tr>
+<td>2_147_483_648</td>
+<td>0b10000000000000000000000000000000</td>
+</tr>
+</tbody>
+</table>
+<p>The maximum uint32 should have more than 32 bits so it does not get represented as int32,
+but that is not possible in JavaScript (weird, I know). Thus, this value will be interpreted
+as int32 if operated with <code>num | 0</code>, having the value of <code>num | 0</code> not be equal to <code>num</code>.</p></div>
+            
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>All main operations for computations</p>
+<p><strong>Note</strong>:</p>
+<ul>
+<li>Floating points are not supported</li>
+</ul>
+<p>Functions in this file will use these bitwise operators:</p>
+<ul>
+<li><code>&lt;&lt;</code> left shift</li>
+<li><code>&gt;&gt;</code> right shift (signed, will use the leftmost bit when shifting, preserving the integer's sign).</li>
+<li><code>|</code> OR operator</li>
+<li><code>&amp;</code> AND operator</li>
+</ul>
+<p>Even though all numbers in JavaScript are 64-bit double precision
+floating points and converts operands of bitwise operations to int32.
+for bitwise operations to work properly, it would still be nice to
+check for a number's range (8-bit, 16-bit, etc.).</p>
+<p>It's still logical to use a custom <code>Integer</code> class and using strings, but for the
+sake of learning, I'm using bitwise operations if possible.</p>
+<p>To give an example for the operations of the functions in this file:</p>
+<p>isSignedByte will check whether a number is int8.</p>
+<p>Since all integers in JavaScript is 32-bit, this function will shift the number to the
+left <code>24</code> bits and back to the right by <code>24</code> bits.</p>
+<p>If the number is originally an 8-bit number, then the final result will still be
+itself; otherwise, its significant bits (bits information after the least 8 bits) is lost.</p>
+<p>Lastly, uint32 cannot be fully supported by JavaScript</p>
+<p>See the table below to compare the binary representation of specific numbers to understand
+how we can check their type using the mentioned operations:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Binary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(Maximum int24) 8388607</td>
+<td>0b00000000011111111111111111111111</td>
+</tr>
+<tr>
+<td>8388608</td>
+<td>0b00000000100000000000000000000000</td>
+</tr>
+<tr>
+<td>(Maximum uint8) 255</td>
+<td>0b00000000000000000000000011111111</td>
+</tr>
+<tr>
+<td>256</td>
+<td>0b00000000000000000000000100000000</td>
+</tr>
+<tr>
+<td>(Maximum int32) 2_147_483_647</td>
+<td>0b01111111111111111111111111111111</td>
+</tr>
+<tr>
+<td>(Maximum uint32) 4_294_967_295</td>
+<td>0b1111111111111111111111111111111</td>
+</tr>
+<tr>
+<td>2_147_483_648</td>
+<td>0b10000000000000000000000000000000</td>
+</tr>
+</tbody>
+</table>
+<p>The maximum uint32 should have more than 32 bits so it does not get represented as int32,
+but that is not possible in JavaScript (weird, I know). Thus, this value will be interpreted
+as int32 if operated with <code>num | 0</code>, having the value of <code>num | 0</code> not be equal to <code>num</code>.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://bitwisecmd.com/">https://bitwisecmd.com/</a></li>
+        
+            <li><a href="https://www.w3schools.com/js/js_bitwise.asp">https://www.w3schools.com/js/js_bitwise.asp</a> know how bit shifts work</li>
+        
+            <li><a href="https://byjus.com/maths/binary-number-system/">https://byjus.com/maths/binary-number-system/</a> to know about the binary number system</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="~getBitAt"><span class="type-signature type-signature-inner">(inner) </span>getBitAt<span class="signature">(num, bitPosition)</span><span class="type-signature"> &rarr; {number}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line258">line 258</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bitPosition</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-throws">Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <p>if <code>num</code> or <code>bitPosition</code> are <code>NaN</code> or <code>Infinity</code> or <code>bitPosition</code> &gt; 32</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+|
+
+<span class="param-type">RangeError</span>
+
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~getNumberType"><span class="type-signature type-signature-inner">(inner) </span>getNumberType<span class="signature">(num)</span><span class="type-signature"> &rarr; {NumberType}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line205">line 205</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">JsNumber</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-throws">Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <p>gets an unsupported number type or invalid argument</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">UnsupportedError</span>
+|
+
+<span class="param-type">TypeError</span>
+
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>returns the type of integer <code>num</code> is.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">NumberType</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~isSigned24Bit"><span class="type-signature type-signature-inner">(inner) </span>isSigned24Bit<span class="signature">(num, skipCheck<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line119">line 119</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skipCheck</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~isSignedByte"><span class="type-signature type-signature-inner">(inner) </span>isSignedByte<span class="signature">(num, skipCheck<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line85">line 85</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skipCheck</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~isSignedInt"><span class="type-signature type-signature-inner">(inner) </span>isSignedInt<span class="signature">(num, skipCheck<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line136">line 136</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skipCheck</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~isSignedShort"><span class="type-signature type-signature-inner">(inner) </span>isSignedShort<span class="signature">(num, skipCheck<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line102">line 102</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skipCheck</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~isUnsigned24Bit"><span class="type-signature type-signature-inner">(inner) </span>isUnsigned24Bit<span class="signature">(num, skipCheck<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line187">line 187</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skipCheck</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~isUnsignedByte"><span class="type-signature type-signature-inner">(inner) </span>isUnsignedByte<span class="signature">(num, skipCheck<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line153">line 153</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skipCheck</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~isUnsignedShort"><span class="type-signature type-signature-inner">(inner) </span>isUnsignedShort<span class="signature">(num, skipCheck<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line170">line 170</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skipCheck</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="~JsNumber">JsNumber</h4>
+
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line70">line 70</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+|
+
+<span class="param-type">bigint</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="~NumberType">NumberType</h4>
+
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_src_numbers_compute_engine.js.html">utils/src/numbers/compute/engine.js</a>, <a href="utils_src_numbers_compute_engine.js.html#line74">line 74</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">"int8"</span>
+|
+
+<span class="param-type">"int16"</span>
+|
+
+<span class="param-type">"int24"</span>
+|
+
+<span class="param-type">"int32"</span>
+|
+
+<span class="param-type">"int64"</span>
+|
+
+<span class="param-type">"uint8"</span>
+|
+
+<span class="param-type">"uint16"</span>
+|
+
+<span class="param-type">"uint24"</span>
+|
+
+<span class="param-type">"uint32"</span>
+|
+
+<span class="param-type">"uint64"</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a> on Sat Aug 31 2024 12:39:14 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>
