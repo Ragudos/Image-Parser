@@ -232,6 +232,7 @@ function isUnsigned24Bit(num) {
 	if (isNaN(num) || !isFinite(num)) {
 		return false;
 	}
+
 	return (num & 0xffffff) === num;
 }
 
