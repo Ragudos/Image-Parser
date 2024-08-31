@@ -171,7 +171,7 @@ function bytesTo32BitUint(
  * @param {number} num
  * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  *
- * @returns {[number]}
+ * @returns {Array<number>}
  *
  * @throws {RangeError} if `num` is not uint8 when checked
  */
@@ -190,7 +190,7 @@ function uint8ToBytes(num, skipCheck) {
  * @param {number} num
  * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  *
- * @returns {[number]}
+ * @returns {Array<number>}
  *
  * @throws {RangeError} if `num` is not int8 when checked
  */
