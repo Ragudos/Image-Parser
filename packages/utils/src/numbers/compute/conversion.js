@@ -21,6 +21,11 @@ const {
 } = require("./engine");
 
 /**
+ *
+ * @module utils/numbers/compute/conversion
+ * @fileoverview
+ * All main operations for conversions
+ *
  * **Note**:
  * - Floating points are not supported
  *
@@ -64,9 +69,6 @@ const {
  *
  * Thus, if a value is greater than the max of its signed format's positive value, then it's
  * a negative value in its signed format.
- *
- * @fileoverview All main operations for conversions
- * @module utils/numbers/compute/conversion
  */
 
 /**

@@ -8,6 +8,11 @@
  */
 
 /**
+ * @module utils/numbers/compute/engine
+ * @fileoverview
+ *
+ * All main operations for computations
+ *
  * **Note**:
  * - Floating points are not supported
  *
@@ -53,9 +58,6 @@
  * The maximum uint32 should have more than 32 bits so it does not get represented as int32,
  * but that is not possible in JavaScript (weird, I know). Thus, this value will be interpreted
  * as int32 if operated with `num | 0`, having the value of `num | 0` not be equal to `num`.
- *
- * @fileoverview All main operations for computations
- * @module utils/numbers/compute/engine
  *
  * @see {@link https://bitwisecmd.com/}
  * @see {@link https://www.w3schools.com/js/js_bitwise.asp} know how bit shifts work
