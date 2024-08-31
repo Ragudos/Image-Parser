@@ -13,8 +13,8 @@
     "build": "node esbuild.config.mjs",
     "test": "jest",
     "build:types": "tsc",
-    "lint": "lint ./src",
-    "lint:fix": "lint ./src --fix",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
     "typecheck": "tsc -p tsconfig.test.json --noEmit",
     "format": "prettier --write ./src"
   },

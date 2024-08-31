@@ -243,6 +243,31 @@ function getNumberType(num) {
 	throw new UnsupportedError();
 }
 
+/**
+ *
+ * @param {number} num
+ * @param {number} bitPosition
+ *
+ * @returns {number}
+ *
+ * @throws {TypeError | RangeError} if `num` or `bitPosition` are `NaN` or `Infinity` or `bitPosition` > 32
+ */
+function getBitAt(num, bitPosition) {
+	if (isNaN(num) || !isFinite(num)) {
+		throw new TypeError();
+	}
+
+	if (isNaN(bitPosition) || !isFinite(bitPosition)) {
+		throw new TypeError();
+	}
+
+	if (bitPosition > 32) {
+		throw new RangeError();
+	}
+
+	return (num >> bitPosition) & 1;
+}
+
 module.exports = {
 	isSignedByte,
 	isSignedShort,
@@ -252,4 +277,5 @@ module.exports = {
 	isUnsignedShort,
 	isUnsigned24Bit,
 	getNumberType,
+	getBitAt,
 };

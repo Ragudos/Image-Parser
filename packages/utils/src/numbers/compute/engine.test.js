@@ -9,6 +9,7 @@ const {
 	getNumberType,
 	isSigned24Bit,
 	isUnsigned24Bit,
+	getBitAt,
 } = require("./engine");
 const {
 	MAX_INT_8BIT,
@@ -54,6 +55,11 @@ describe("Stuff in utils/numbers/compute/engine work when", () => {
 			expect(() => getNumberType(NaN)).toThrowError(TypeError);
 			expect(() => getNumberType(Infinity)).toThrowError(TypeError);
 			expect(() => getNumberType(-Infinity)).toThrowError(TypeError);
+
+			expect(() => getBitAt(0, 33)).toThrowError(RangeError);
+			expect(() => getBitAt(Infinity, 0)).toThrowError(TypeError);
+			expect(() => getBitAt(NaN, 1)).toThrowError(TypeError);
+			expect(() => getBitAt(2, Infinity)).toThrowError(TypeError);
 		});
 	});
 
@@ -143,6 +149,16 @@ describe("Stuff in utils/numbers/compute/engine work when", () => {
 			// Edge case. Don't remove
 			expect(getNumberType(MAX_UINT_24BIT + 1)).toBe("int32");
 			expect(getNumberType(MAX_UINT_32BIT)).toBe("uint32");
+		});
+	});
+
+	describe("bit acquisition is properly done when it", () => {
+		it("has getBitAt() working properly", () => {
+			expect(getBitAt(223, 5)).toBe(0);
+			expect(getBitAt(MAX_INT_32BIT + 1, 31)).toBe(1);
+			expect(getBitAt(MAX_INT_32BIT + 1, 32)).toBe(0);
+			expect(getBitAt(-223, 5)).toBe(1);
+			expect(getBitAt(-223, 6)).toBe(0);
 		});
 	});
 });
