@@ -25,48 +25,70 @@ const {
 	MAX_UINT_24BIT,
 } = require("../const");
 
-describe("Functions in utils/numbers/compute/engine work when", () => {
+describe("Stuff in utils/numbers/compute/engine work when", () => {
+	describe("invalid input is reconized properly when it", () => {
+		it("recognizes an invalid argument, namely `NaN` and `Infinity`", () => {
+			expect(isSignedByte(NaN)).toBeFalsy();
+			expect(isSignedByte(Infinity)).toBeFalsy();
+			expect(isSignedByte(-Infinity)).toBeFalsy();
+			expect(isSignedShort(NaN)).toBeFalsy();
+			expect(isSignedShort(Infinity)).toBeFalsy();
+			expect(isSignedShort(-Infinity)).toBeFalsy();
+			expect(isSigned24Bit(NaN)).toBeFalsy();
+			expect(isSigned24Bit(Infinity)).toBeFalsy();
+			expect(isSigned24Bit(-Infinity)).toBeFalsy();
+			expect(isSignedInt(NaN)).toBeFalsy();
+			expect(isSignedInt(Infinity)).toBeFalsy();
+			expect(isSignedInt(-Infinity)).toBeFalsy();
+
+			expect(isUnsignedByte(NaN)).toBeFalsy();
+			expect(isUnsignedByte(Infinity)).toBeFalsy();
+			expect(isUnsignedByte(-Infinity)).toBeFalsy();
+			expect(isUnsignedShort(NaN)).toBeFalsy();
+			expect(isUnsignedShort(Infinity)).toBeFalsy();
+			expect(isUnsignedShort(-Infinity)).toBeFalsy();
+			expect(isUnsigned24Bit(NaN)).toBeFalsy();
+			expect(isUnsigned24Bit(Infinity)).toBeFalsy();
+			expect(isUnsigned24Bit(-Infinity)).toBeFalsy();
+
+			expect(() => getNumberType(NaN)).toThrowError(TypeError);
+			expect(() => getNumberType(Infinity)).toThrowError(TypeError);
+			expect(() => getNumberType(-Infinity)).toThrowError(TypeError);
+		});
+	});
+
 	describe("number types are recognized properly when it", () => {
-		const signed8BitInts = [MIN_INT_8BIT, -1, -29, 0, 29, 1, MAX_INT_8BIT];
-		const signed16BitInts = [
-			MIN_INT_16BIT,
-			-20_000,
-			-1,
-			0,
-			1,
-			30_000,
-			MAX_INT_16BIT,
-		];
-		const invalidSigned8BitInts = [-129, 128, -2000, 400];
-		const invalidSigned16BitInts = [-32_769, 32_768];
-
 		it("recognizes an 8-bit signed integer when using isSignedByte()", () => {
-			for (const int of signed8BitInts) {
-				expect(isSignedByte(int)).toBeTruthy();
-			}
+			expect(isSignedByte(MIN_INT_8BIT)).toBeTruthy();
+			expect(isSignedByte(-1)).toBeTruthy();
+			expect(isSignedByte(0)).toBeTruthy();
+			expect(isSignedByte(MAX_INT_8BIT)).toBeTruthy();
 
-			for (const int of invalidSigned8BitInts) {
-				expect(isSignedByte(int)).toBeFalsy();
-			}
+			expect(isSignedByte(MIN_INT_16BIT)).toBeFalsy();
+			expect(isSignedByte(-20_000)).toBeFalsy();
+			expect(isSignedByte(30_000)).toBeFalsy();
+			expect(isSignedByte(-129)).toBeFalsy();
+			expect(isSignedByte(128)).toBeFalsy();
+			expect(isSignedByte(-2000)).toBeFalsy();
+			expect(isSignedByte(255)).toBeFalsy();
 		});
 
 		it("recognizes a 16-bit signed integer when using isSignedShort()", () => {
-			for (const int of signed16BitInts) {
-				expect(isSignedShort(int)).toBeTruthy();
-			}
+			expect(isSignedShort(MIN_INT_16BIT)).toBeTruthy();
+			expect(isSignedShort(MAX_INT_16BIT)).toBeTruthy();
+			expect(isSignedShort(0)).toBeTruthy();
 
-			for (const int of invalidSigned16BitInts) {
-				expect(isSignedShort(int)).toBeFalsy();
-			}
+			expect(isSignedShort(MIN_INT_16BIT - 1)).toBeFalsy();
+			expect(isSignedShort(MAX_INT_16BIT + 1)).toBeFalsy();
 		});
 
-		it("recognized a 24-bit signed integer when using isSigned24Bit()", () => {
+		it("recognizes a 24-bit signed integer when using isSigned24Bit()", () => {
 			expect(isSigned24Bit(MAX_INT_24BIT)).toBeTruthy();
 			expect(isSigned24Bit(MIN_INT_24BIT)).toBeTruthy();
+			expect(isSigned24Bit(0)).toBeTruthy();
 			expect(isSigned24Bit(MAX_INT_24BIT + 1)).toBeFalsy();
 			expect(isSigned24Bit(MIN_INT_24BIT - 1)).toBeFalsy();
 			expect(isSigned24Bit(MAX_INT_32BIT)).toBeFalsy();
-			expect(isSigned24Bit(0)).toBeTruthy();
 		});
 
 		it("recognizes a 32-bit signed integer when using isSignedInt()", () => {

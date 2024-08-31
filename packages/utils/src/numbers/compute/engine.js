@@ -82,6 +82,9 @@ const { MAX_INT_32BIT, MIN_INT_32BIT } = require("../const");
  * @see {@link https://www.w3schools.com/js/js_bitwise.asp} know how bit shifts work
  */
 function isSignedByte(num) {
+	if (isNaN(num) || !isFinite(num)) {
+		return false;
+	}
 	return (num << 24) >> 24 === num;
 }
 
@@ -129,6 +132,9 @@ function isSignedByte(num) {
  * @see {@link https://www.w3schools.com/js/js_bitwise.asp}
  */
 function isSignedShort(num) {
+	if (isNaN(num) || !isFinite(num)) {
+		return false;
+	}
 	return (num << 16) >> 16 === num;
 }
 
@@ -160,6 +166,9 @@ function isSignedShort(num) {
  * @see {@link isSignedByte}
  */
 function isSigned24Bit(num) {
+	if (isNaN(num) || !isFinite(num)) {
+		return false;
+	}
 	return (num << 8) >> 8 === num;
 }
 
@@ -181,6 +190,10 @@ function isSigned24Bit(num) {
  * @returns {boolean}
  */
 function isSignedInt(num) {
+	if (isNaN(num) || !isFinite(num)) {
+		return false;
+	}
+
 	return num === (num | 0);
 }
 
@@ -191,6 +204,10 @@ function isSignedInt(num) {
  * @see {@link https://www.w3schools.com/js/js_bitwise.asp}
  */
 function isUnsignedByte(num) {
+	if (isNaN(num) || !isFinite(num)) {
+		return false;
+	}
+
 	return (num & 0xff) === num;
 }
 
@@ -200,6 +217,9 @@ function isUnsignedByte(num) {
  * @returns {boolean}
  */
 function isUnsignedShort(num) {
+	if (isNaN(num) || !isFinite(num)) {
+		return false;
+	}
 	return (num & 0xffff) === num;
 }
 
@@ -209,6 +229,9 @@ function isUnsignedShort(num) {
  * @returns {boolean}
  */
 function isUnsigned24Bit(num) {
+	if (isNaN(num) || !isFinite(num)) {
+		return false;
+	}
 	return (num & 0xffffff) === num;
 }
 
@@ -219,11 +242,15 @@ function isUnsigned24Bit(num) {
  * @param {JsNumber} num
  * @returns {NumberType} returns the type of integer `num` is.
  *
- * @throws {Error} Gets an unsupported number type
+ * @throws {UnsupportedError | TypeError} gets an unsupported number type or invalid argument
  */
 function getNumberType(num) {
 	if (typeof num === "bigint") {
 		throw new UnsupportedError();
+	}
+
+	if (isNaN(num) || !isFinite(num)) {
+		throw new TypeError();
 	}
 
 	if (isSignedByte(num)) {

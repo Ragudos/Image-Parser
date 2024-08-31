@@ -2,6 +2,14 @@
 
 This is a work-in-progress
 
+## Resources
+
+Below are the resources and applications I use to understand the concepts in this repository.
+
+- [bitwisecmd, Bitwise Calculator](https://bitwisecmd.com/)
+- [libpng, Information about PNG](http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html)
+- [W3Schools, Basic knowledge about bitwise operators](https://www.w3schools.com/js/js_bitwise.asp)
+
 ## License
 
 This project is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).

@@ -16,6 +16,8 @@ const {
 	isSignedByte,
 	isSignedShort,
 	isUnsignedShort,
+	isSigned24Bit,
+	isUnsigned24Bit,
 } = require("./engine");
 
 /**
@@ -115,7 +117,7 @@ function bytesTo24BitUint(highestByte, midByte, lowestByte, littleEndian) {
  * @param {number} firstMidByte
  * @param {number} secondMidByte
  * @param {number} lowestByte
- * @param {number} littleEndian
+ * @param {number} [littleEndian]
  *
  * @returns {number}
  *
@@ -158,14 +160,17 @@ function bytesTo32BitUint(
 /**
  *
  * @param {number} num
+ * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  *
  * @returns {[number]}
  *
- * @throws {RangeError} if `num` is not uint8
+ * @throws {RangeError} if `num` is not uint8 when checked
  */
-function uint8ToBytes(num) {
-	if (!isUnsignedByte(num)) {
-		throw new RangeError();
+function uint8ToBytes(num, skipCheck) {
+	if (skipCheck) {
+		if (!isUnsignedByte(num)) {
+			throw new RangeError();
+		}
 	}
 
 	return [num];
@@ -174,14 +179,17 @@ function uint8ToBytes(num) {
 /**
  *
  * @param {number} num
+ * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  *
  * @returns {[number]}
  *
- * @throws {RangeError} if `num` is not int8
+ * @throws {RangeError} if `num` is not int8 when checked
  */
-function int8ToBytes(num) {
-	if (!isSignedByte(num)) {
-		throw new RangeError();
+function int8ToBytes(num, skipCheck) {
+	if (!skipCheck) {
+		if (!isSignedByte(num)) {
+			throw new RangeError();
+		}
 	}
 
 	return [num & 0xff];
@@ -190,15 +198,18 @@ function int8ToBytes(num) {
 /**
  *
  * @param {number} num
+ * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
  * @returns {[number, number]}
  *
- * @throws {RangeError} if `num` is not int16
+ * @throws {RangeError} if `num` is not int16 when checked
  */
-function int16ToBytes(num, littleEndian) {
-	if (!isSignedShort(num)) {
-		throw new RangeError();
+function int16ToBytes(num, skipCheck, littleEndian) {
+	if (!skipCheck) {
+		if (!isSignedShort(num)) {
+			throw new RangeError();
+		}
 	}
 
 	const highestByte = (num >> 8) & 0xff;
@@ -215,15 +226,18 @@ function int16ToBytes(num, littleEndian) {
  * Does not mask the result of `num >> 8` to `0xff`
  *
  * @param {number} num
+ * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
  * @returns {[number, number]}
  *
  * @throws {RangeError} if `num` is not uint16
  */
-function uint16ToBytes(num, littleEndian) {
-	if (!isUnsignedShort(num)) {
-		throw new RangeError();
+function uint16ToBytes(num, skipCheck, littleEndian) {
+	if (!skipCheck) {
+		if (!isUnsignedShort(num)) {
+			throw new RangeError();
+		}
 	}
 
 	const highestByte = num >> 8;
@@ -239,46 +253,118 @@ function uint16ToBytes(num, littleEndian) {
 /**
  *
  * @param {number} num
+ * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
  * @returns {[number, number, number]}
  *
  * @throws {RangeError} if `num` is not int24
  */
-function int24ToBytes(num, littleEndian) {}
+function int24ToBytes(num, skipCheck, littleEndian) {
+	if (!skipCheck) {
+		if (!isSigned24Bit(num)) {
+			throw new RangeError();
+		}
+	}
+
+	const highestByte = (num >> 16) & 0xff;
+	const midByte = (num >> 8) & 0xff;
+	const lowestByte = num & 0xff;
+
+	if (littleEndian) {
+		return [lowestByte, midByte, highestByte];
+	}
+
+	return [highestByte, midByte, lowestByte];
+}
 
 /**
  *
+ * We don't mask the `highestByte` since we assert that `num` will is not negative.
+ *
  * @param {number} num
+ * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
  * @returns {[number, number, number]}
  *
  * @throws {RangeError} if `num` is not int24
  */
-function uint24ToBytes(num, littleEndian) {}
+function uint24ToBytes(num, skipCheck, littleEndian) {
+	if (!skipCheck) {
+		if (!isUnsigned24Bit(num)) {
+			throw new RangeError();
+		}
+	}
+
+	const highestByte = num >> 16;
+	const midByte = (num >> 8) & 0xff;
+	const lowestByte = num & 0xff;
+
+	if (littleEndian) {
+		return [lowestByte, midByte, highestByte];
+	}
+
+	return [highestByte, midByte, lowestByte];
+}
 
 /**
  *
  * @param {number} num
+ * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
  * @returns {[number, number, number, number]}
  *
- * @throws {RangeError} if `num` is not int24
+ * @throws {RangeError} if `num` is not int32 when checked
  */
-function int32ToBytes(num, littleEndian) {}
+function int32ToBytes(num, skipCheck, littleEndian) {
+	if (!skipCheck) {
+		if (!isSignedInt(num)) {
+			throw new RangeError();
+		}
+	}
+
+	const highestByte = (num >> 24) & 0xff;
+	const firstMidByte = (num >> 16) & 0xff;
+	const secondMidByte = (num >> 8) & 0xff;
+	const lowestByte = num & 0xff;
+
+	if (littleEndian) {
+		return [lowestByte, secondMidByte, firstMidByte, highestByte];
+	}
+
+	return [highestByte, firstMidByte, secondMidByte, lowestByte];
+}
 
 /**
  *
  * @param {number} num
+ * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
  * @param {boolean} [littleEndian]
  *
  * @returns {[number, number, number, number]}
  *
- * @throws {RangeError} if `num` is not int24
+ * @throws {RangeError} if `num` is not uint32 when checked
  */
-function uint32ToBytes(num, littleEndian) {}
+function uint32ToBytes(num, skipCheck, littleEndian) {
+	if (!skipCheck) {
+		if (num < 0 || num > MAX_UINT_32BIT) {
+			throw new RangeError();
+		}
+	}
+
+	const highestByte = num >> 24;
+	const firstMidByte = (num >> 16) & 0xff;
+	const secondMidByte = (num >> 8) & 0xff;
+	const lowestByte = num & 0xff;
+
+	if (littleEndian) {
+		return [lowestByte, secondMidByte, firstMidByte, highestByte];
+	}
+
+	return [highestByte, firstMidByte, secondMidByte, lowestByte];
+}
 
 /**
  *
@@ -300,17 +386,21 @@ function numToBytes(num, littleEndian) {
 
 	switch (getNumberType(num)) {
 		case "int8":
-			return int8ToBytes(num);
+			return int8ToBytes(num, true);
 		case "uint8":
-			return uint8ToBytes(num);
+			return uint8ToBytes(num, true);
 		case "int16":
-			return int16ToBytes(num, littleEndian);
+			return int16ToBytes(num, true, littleEndian);
 		case "uint16":
-			return uint16ToBytes(num, littleEndian);
+			return uint16ToBytes(num, true, littleEndian);
+		case "int24":
+			return int24ToBytes(num, true, littleEndian);
+		case "uint24":
+			return uint24ToBytes(num, true, littleEndian);
 		case "int32":
-			return int32ToBytes(num, littleEndian);
+			return int32ToBytes(num, true, littleEndian);
 		case "uint32":
-			return uint32ToBytes(num, littleEndian);
+			return uint32ToBytes(num, true, littleEndian);
 		default:
 			throw new UnsupportedError();
 	}
@@ -322,6 +412,11 @@ module.exports = {
 	bytesTo32BitUint,
 	int8ToBytes,
 	int16ToBytes,
+	int24ToBytes,
+	int32ToBytes,
 	uint8ToBytes,
 	uint16ToBytes,
+	uint24ToBytes,
+	uint32ToBytes,
+	numToBytes,
 };
