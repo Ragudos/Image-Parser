@@ -9,7 +9,7 @@ export default [
 			jsdoc: jsDoc,
 		},
 		languageOptions: {
-			ecmaVersion: 2020,
+			ecmaVersion: "latest",
 			sourceType: "module",
 			globals: {
 				...globals.commonjs,

@@ -11,6 +11,7 @@ module.exports = {
 	...require("./debug/assert"),
 	...require("./numbers/const"),
 	...require("./numbers/compute/engine"),
+	...require("./numbers/compute/conversion"),
 	...require("./debug/errors"),
 	...require("./is"),
 };
