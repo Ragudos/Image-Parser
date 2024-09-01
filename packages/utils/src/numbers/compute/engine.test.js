@@ -159,6 +159,8 @@ describe("Stuff in utils/numbers/compute/engine work when", () => {
 			expect(getBitAt(MAX_INT_32BIT + 1, 32)).toBe(0);
 			expect(getBitAt(-223, 5)).toBe(1);
 			expect(getBitAt(-223, 6)).toBe(0);
+			expect(getBitAt(-21111111111, 10)).toBe(0); // -21111111111 >> 10 = 0b1111111111111111111111111111111111111110110001010110101110000000
+			expect(getBitAt(-21111111111, 18)).toBe(1); // -21111111111 >> 18 = 0b1111111111111111111111111111111111111111111111101100010101101011
 		});
 	});
 });

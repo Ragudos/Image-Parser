@@ -8,7 +8,13 @@
  */
 
 const { UnsupportedError } = require("../../debug/errors");
-const { MAX_UINT_32BIT } = require("../const");
+const {
+	MAX_UINT_32BIT,
+	MAX_INT_16BIT_PLUS1,
+	MAX_UINT_16BIT_PLUS1,
+	MAX_INT_24BIT_PLUS1,
+	MAX_UINT_24BIT_PLUS1,
+} = require("../const");
 const {
 	isUnsignedByte,
 	getNumberType,
@@ -74,24 +80,44 @@ const {
 
 /**
  *
- * @param {number} highByte
- * @param {number} lowByte
+ * @param {number} highestByte
+ * @param {number} lowestByte
  * @param {boolean} [littleEndian]
  *
  * @returns {number}
  *
  * @throws {RangeError} if `highByte` nor `lowByte` is not a byte
  */
-function bytesTo16BitUint(highByte, lowByte, littleEndian) {
-	if (!isUnsignedByte(highByte) || !isUnsignedByte(lowByte)) {
+function bytesTo16BitUint(highestByte, lowestByte, littleEndian) {
+	if (!isUnsignedByte(highestByte) || !isUnsignedByte(lowestByte)) {
 		throw new RangeError();
 	}
 
 	if (littleEndian) {
-		return (lowByte << 8) | highByte;
+		return (lowestByte << 8) | highestByte;
 	}
 
-	return (highByte << 8) | lowByte;
+	return (highestByte << 8) | lowestByte;
+}
+
+/**
+ *
+ * @param {number} highestByte
+ * @param {number} lowestByte
+ * @param {boolean} [littleEndian]
+ *
+ * @returns {number}
+ *
+ * @throws {RangeError} if `highByte` nor `lowByte` is not a byte
+ */
+function bytesTo16BitInt(highestByte, lowestByte, littleEndian) {
+	let int16 = bytesTo16BitUint(highestByte, lowestByte, littleEndian);
+
+	if (int16 & MAX_INT_16BIT_PLUS1) {
+		int16 -= MAX_UINT_16BIT_PLUS1;
+	}
+
+	return int16;
 }
 
 /**
@@ -124,6 +150,32 @@ function bytesTo24BitUint(highestByte, midByte, lowestByte, littleEndian) {
 /**
  *
  * @param {number} highestByte
+ * @param {number} midByte
+ * @param {number} lowestByte
+ * @param {boolean} [littleEndian]
+ *
+ * @returns {number}
+ *
+ * @throws {RangeError} if `highByte` nor `lowByte` is not a byte
+ */
+function bytesTo24BitInt(highestByte, midByte, lowestByte, littleEndian) {
+	let int24 = bytesTo24BitUint(
+		highestByte,
+		midByte,
+		lowestByte,
+		littleEndian
+	);
+
+	if (int24 & MAX_INT_24BIT_PLUS1) {
+		int24 -= MAX_UINT_24BIT_PLUS1;
+	}
+
+	return int24;
+}
+
+/**
+ *
+ * @param {number} highestByte
  * @param {number} firstMidByte
  * @param {number} secondMidByte
  * @param {number} lowestByte
@@ -132,9 +184,38 @@ function bytesTo24BitUint(highestByte, midByte, lowestByte, littleEndian) {
  * @returns {number}
  *
  * @throws {RangeError} if `highestByte`, `firstMidByte`, `secondMidByte` nor `lowestByte` is not a byte
-
  */
 function bytesTo32BitUint(
+	highestByte,
+	firstMidByte,
+	secondMidByte,
+	lowestByte,
+	littleEndian
+) {
+	return (
+		bytesTo32BitInt(
+			highestByte,
+			firstMidByte,
+			secondMidByte,
+			lowestByte,
+			littleEndian
+		) >>> 0
+	);
+}
+
+/**
+ *
+ * @param {number} highestByte
+ * @param {number} firstMidByte
+ * @param {number} secondMidByte
+ * @param {number} lowestByte
+ * @param {boolean} [littleEndian]
+ *
+ * @returns {number}
+ *
+ * @throws {RangeError} if `highestByte`, `firstMidByte`, `secondMidByte` nor `lowestByte` is not a byte
+ */
+function bytesTo32BitInt(
 	highestByte,
 	firstMidByte,
 	secondMidByte,
@@ -152,20 +233,18 @@ function bytesTo32BitUint(
 
 	if (littleEndian) {
 		return (
-			((lowestByte << 24) |
-				(secondMidByte << 16) |
-				(firstMidByte << 8) |
-				highestByte) >>>
-			0
+			(lowestByte << 24) |
+			(secondMidByte << 16) |
+			(firstMidByte << 8) |
+			highestByte
 		);
 	}
 
 	return (
-		((highestByte << 24) |
-			(firstMidByte << 16) |
-			(secondMidByte << 8) |
-			lowestByte) >>>
-		0
+		(highestByte << 24) |
+		(firstMidByte << 16) |
+		(secondMidByte << 8) |
+		lowestByte
 	);
 }
 
@@ -179,7 +258,7 @@ function bytesTo32BitUint(
  * @throws {RangeError} if `num` is not uint8 when checked
  */
 function uint8ToBytes(num, skipCheck) {
-	if (skipCheck) {
+	if (!skipCheck) {
 		if (!isUnsignedByte(num)) {
 			throw new RangeError();
 		}
@@ -292,7 +371,7 @@ function int24ToBytes(num, skipCheck, littleEndian) {
 
 /**
  *
- * We don't mask the `highestByte` since we assert that `num` will is not negative.
+ * We don't mask the `highestByte` since we assert that `num` is not negative.
  *
  * @param {number} num
  * @param {boolean} [skipCheck] **Only toggle this as true if you know what you're doing.**
@@ -366,7 +445,7 @@ function uint32ToBytes(num, skipCheck, littleEndian) {
 		}
 	}
 
-	const highestByte = num >> 24;
+	const highestByte = (num >> 24) & 0xff;
 	const firstMidByte = (num >> 16) & 0xff;
 	const secondMidByte = (num >> 8) & 0xff;
 	const lowestByte = num & 0xff;
@@ -433,6 +512,9 @@ module.exports = {
 	bytesTo16BitUint,
 	bytesTo24BitUint,
 	bytesTo32BitUint,
+	bytesTo16BitInt,
+	bytesTo24BitInt,
+	bytesTo32BitInt,
 	int8ToBytes,
 	int16ToBytes,
 	int24ToBytes,
