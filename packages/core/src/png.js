@@ -7,8 +7,6 @@
  * Copyright (c) 2024 Aaron Ragudos
  */
 
-const { bytesTo32BitUint } = require("@image-parser/utils");
-
 /**
  * @fileoverview ALl PNG related operations are in this file.
  * @module core/png
