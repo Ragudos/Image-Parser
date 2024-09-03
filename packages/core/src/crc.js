@@ -32,14 +32,14 @@ class CRC {
 
 		// uint8
 		for (let i = 0; i < 256; ++i) {
-			let c = MAX_UINT_32BIT;
+			let c = i;
 
 			// 8-bit (uint8 has 8 bits)
 			for (let j = 0; j < 8; ++j) {
 				if (c & 1) {
-					c = 0xedb88320 ^ (c >> 1);
+					c = 0xedb88320 ^ (c >>> 1);
 				} else {
-					c = c >> 1;
+					c = c >>> 1;
 				}
 			}
 
@@ -66,7 +66,7 @@ class CRC {
 		for (let i = 0; i < buf.length; ++i) {
 			const index = (c ^ buf[i]) & MAX_UINT_8BIT;
 
-			c = CRC.#table[index] ^ (c >> 8);
+			c = CRC.#table[index] ^ (c >>> 8);
 		}
 
 		return c;
