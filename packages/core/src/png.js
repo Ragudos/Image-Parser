@@ -12,7 +12,7 @@ const {
 	bytesTo32BitUint,
 	assert,
 	UnimplementedError,
-} = require("@image-parser/utils");
+} = require("@image-parser/utils/src");
 const { PNG_SIGNATURE, CHARACTER_ASCII_CODES } = require("./const");
 const { CRC } = require("./crc");
 

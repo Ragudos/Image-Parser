@@ -53,7 +53,7 @@ function isArray(obj) {
  * @returns {boolean}
  */
 function isNumber(obj) {
-	return typeof obj === "number" && !isNaN(obj);
+	return typeof obj === "number" && obj - obj === 0;
 }
 
 module.exports = {

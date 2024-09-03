@@ -3,7 +3,7 @@
   "description": "The website that showcases the stuff in @image-parser.",
   "version": "1.0.0",
   "scripts": {
-    "clean": "rmdir /s /q public\\dist",
+    "clean": "rmdir /s /q public\\dist && del /s /q tsconfig.tsbuildinfo",
     "test": "echo 'No tests for web right now'",
     "build": "node esbuild.config.mjs",
     "build:types": "tsc",

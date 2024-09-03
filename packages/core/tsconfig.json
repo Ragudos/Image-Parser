@@ -2,13 +2,10 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "outDir": "./dist",
-        "rootDir": "./src",
         "composite": true,
         "emitDeclarationOnly": true,
-
-        "paths": {
-            "@image-parser/utils/*": ["../utils/src/*"]
-        }
+        "baseUrl": ".",
+        "rootDir": "./src",
     },
     "exclude": [
         "node_modules/",
@@ -16,9 +13,6 @@
         "__tests__/"
     ],
     "include": [
-        "src/**/*.js"
+        "src/**/*.js",
     ],
-    "references": [
-        { "path": "../utils" }
-    ]
 }

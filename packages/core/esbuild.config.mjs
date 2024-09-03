@@ -26,6 +26,7 @@ for (const format of formats) {
 
 	switch (format) {
 		case "cjs":
+
 		case "iife":
 			{
 				outExtension[".js"] = ".js";
@@ -37,6 +38,7 @@ for (const format of formats) {
 				}
 			}
 			break;
+
 		case "esm":
 			{
 				outExtension[".js"] = ".esm.js";

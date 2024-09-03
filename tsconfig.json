@@ -17,6 +17,10 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "baseUrl": ".",
+
+        "paths": {
+            "@image-parser/utils/*": ["./packages/utils/src/*"]
+        }
     },
     "exclude": [
         "node_modules/",
