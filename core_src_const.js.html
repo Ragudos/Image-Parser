@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>utils/src/debug/errors.js - Documentation</title>
+    <title>core/src/const.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">utils/src/debug/errors.js</h1>
+    <h1 class="page-title">core/src/const.js</h1>
     
 
     
@@ -57,36 +57,33 @@
  */
 
 /**
- * @fileoverview A file of all custom errors
+ * A PNG file will always have this first 8 bytes.
  *
- * @module utils/debug/errors
+ * In *decimal (base-10)*, it looks like:
+ *
+ * ```javascript
+ * [137, 80, 78, 71, 13, 10, 26, 10]
+ * ```
+ * @see http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html
  */
+const PNG_SIGNATURE = Object.freeze([
+	0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+]);
 
-/** */
-class UnsupportedError extends Error {
-	/**
-	 * @param {string} [message]
-	 */
-	constructor(message) {
-		super(`Currently unsupported. ${message}`);
+const CHARACTER_ASCII_CODES = Object.freeze({
+	I: 73,
+	H: 72,
+	D: 68,
+	E: 69,
+	A: 65,
+	R: 82,
+	L: 76,
+	N: 78,
+	P: 80,
+	T: 84,
+});
 
-		this.name = "UnsupportedError";
-	}
-}
-
-class UnimplementedError extends Error {
-	/**
-	 *
-	 * @param {string} [message]
-	 */
-	constructor(message) {
-		super(`Currently unimplemented. ${message}`);
-
-		this.name = "UnimplementedError";
-	}
-}
-
-module.exports = { UnsupportedError, UnimplementedError };
+module.exports = { CHARACTER_ASCII_CODES, PNG_SIGNATURE };
 </code></pre>
         </article>
     </section>

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>utils/src/debug/errors.js - Documentation</title>
+    <title>core/src/crc.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">utils/src/debug/errors.js</h1>
+    <h1 class="page-title">core/src/crc.js</h1>
     
 
     
@@ -56,37 +56,83 @@
  * Copyright (c) 2024 Aaron Ragudos
  */
 
+const { MAX_UINT_32BIT, MAX_UINT_8BIT } = require("@image-parser/utils");
+
 /**
- * @fileoverview A file of all custom errors
  *
- * @module utils/debug/errors
+ * This implementation follows the shared code in:
+ *
+ * @see {@link http://www.libpng.org/pub/png/spec/1.2/PNG-CRCAppendix.html}
  */
+class CRC {
+	/** @type {boolean} */
+	static #crcTableComputed = false;
+	/** @type {Array&lt;number>} */
+	static #table = [];
 
-/** */
-class UnsupportedError extends Error {
-	/**
-	 * @param {string} [message]
-	 */
-	constructor(message) {
-		super(`Currently unsupported. ${message}`);
-
-		this.name = "UnsupportedError";
-	}
-}
-
-class UnimplementedError extends Error {
 	/**
 	 *
-	 * @param {string} [message]
+	 * @returns {void}
 	 */
-	constructor(message) {
-		super(`Currently unimplemented. ${message}`);
+	static #makeTable() {
+		if (CRC.#crcTableComputed) {
+			return;
+		}
 
-		this.name = "UnimplementedError";
+		// uint8
+		for (let i = 0; i &lt; 256; ++i) {
+			let c = MAX_UINT_32BIT;
+
+			// 8-bit (uint8 has 8 bits)
+			for (let j = 0; j &lt; 8; ++j) {
+				if (c &amp; 1) {
+					c = 0xedb88320 ^ (c >> 1);
+				} else {
+					c = c >> 1;
+				}
+			}
+
+			CRC.#table[i] = c;
+		}
+
+		CRC.#crcTableComputed = true;
+	}
+
+	/**
+	 *
+	 * @param {number} crc
+	 * @param {Uint8Array} buf
+	 *
+	 * @returns {number}
+	 */
+	static #updateCRC(crc, buf) {
+		let c = crc;
+
+		if (!CRC.#crcTableComputed) {
+			CRC.#makeTable();
+		}
+
+		for (let i = 0; i &lt; buf.length; ++i) {
+			const index = (c ^ buf[i]) &amp; MAX_UINT_8BIT;
+
+			c = CRC.#table[index] ^ (c >> 8);
+		}
+
+		return c;
+	}
+
+	/**
+	 *
+	 * @param {Uint8Array} buf
+	 *
+	 * @returns {number}
+	 */
+	static calculateCRC(buf) {
+		return CRC.#updateCRC(MAX_UINT_32BIT, buf) ^ MAX_UINT_32BIT;
 	}
 }
 
-module.exports = { UnsupportedError, UnimplementedError };
+module.exports = { CRC };
 </code></pre>
         </article>
     </section>
