@@ -11,6 +11,9 @@ const config = {
 	format: "esm",
 	platform: "browser",
 	sourcemap: false,
+	outExtension: {
+		".js": ".min.js",
+	},
 };
 
 await esbuild.build(config);

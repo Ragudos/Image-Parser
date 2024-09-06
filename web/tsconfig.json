@@ -3,12 +3,13 @@
     "compilerOptions": {
         "rootDir": "./src",
         "composite": true,
-        "emitDeclarationOnly": true,
+        "baseUrl": ".",
+        "noEmit": true,
     },
     "include": [
         "src/**/*.js"
     ],
     "exclude": [
         "node_modules/"
-    ]
+    ],
 }

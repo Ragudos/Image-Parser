@@ -6,3 +6,9 @@
  * Full license text: https://creativecommons.org/licenses/by/4.0/
  * Copyright (c) 2024 Aaron Ragudos
  */
+
+module.exports = {
+	...require("./const"),
+	...require("./crc"),
+	...require("./png"),
+};

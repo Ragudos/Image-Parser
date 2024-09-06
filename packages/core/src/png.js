@@ -12,8 +12,13 @@ const {
 	bytesTo32BitUint,
 	assert,
 	UnimplementedError,
+	isNumber,
 } = require("@image-parser/utils/src");
-const { PNG_SIGNATURE, CHARACTER_ASCII_CODES } = require("./const");
+const {
+	PNG_SIGNATURE,
+	CHARACTER_ASCII_CODES,
+	PNG_COLOR_TYPES,
+} = require("./const");
 const { CRC } = require("./crc");
 
 /**
@@ -85,11 +90,31 @@ function getIHDR(chunks) {
 		IHDRChunk.data[6],
 		IHDRChunk.data[7]
 	);
+
+	assert(width !== 0 || height !== 0, "Dimensions must be > 0.");
+
 	const bitDepth = IHDRChunk.data[8];
 	const colorType = IHDRChunk.data[9];
+
+	assert(isValidBitDepthAndColorType(colorType, bitDepth));
+
 	const compressionMethod = IHDRChunk.data[10];
+
+	assert(
+		compressionMethod === 0,
+		"Compression method, for now, is only 0 (DEFLATE)"
+	);
+
 	const filterMethod = IHDRChunk.data[11];
+
+	assert(
+		filterMethod === 0,
+		"Filter method,for now, must only be 0 (Adaptive filtering)"
+	);
+
 	const interlaceMethod = IHDRChunk.data[12];
+
+	assert(interlaceMethod === 0 || interlaceMethod === 1, "");
 
 	return {
 		width,
@@ -177,4 +202,86 @@ function isValidPNG(rawData) {
 	}
 }
 
-module.exports = { processPNG, getIHDR, getPNGChunks, isValidPNG };
+/**
+ * @param {Uint8Array} plteChunkData
+ * @returns
+ */
+function isValidPLTE(plteChunkData) {
+	return plteChunkData.length % 3 === 0;
+}
+
+/**
+ *
+ * Since there are bitDepth and colorType restrictions, we need to check here
+ *
+ * @param {number} colorType
+ * @param {number} bitDepth
+ *
+ * @returns {boolean}
+ *
+ * @throws {TypeError} if either `bitDepth` or `colorType` is invalid.
+ */
+function isValidBitDepthAndColorType(colorType, bitDepth) {
+	if (!isNumber(colorType) || !isNumber(bitDepth)) {
+		throw new TypeError(
+			"`colorType` or `bitDepth` must be a valid number."
+		);
+	}
+
+	if (
+		colorType !== PNG_COLOR_TYPES.grayscale &&
+		colorType !== PNG_COLOR_TYPES.rgb &&
+		colorType !== PNG_COLOR_TYPES.plte &&
+		colorType !== PNG_COLOR_TYPES.grayscaleAlpha &&
+		colorType !== PNG_COLOR_TYPES.rgbAlpha
+	) {
+		throw new TypeError();
+	}
+
+	if (bitDepth > 16 || bitDepth < 1) {
+		throw new TypeError();
+	}
+
+	if (bitDepth !== 1 && bitDepth !== 2) {
+		if (bitDepth % 4 !== 0) {
+			throw new TypeError();
+		}
+	}
+
+	switch (colorType) {
+		case PNG_COLOR_TYPES.grayscale:
+			return (
+				bitDepth === 1 ||
+				bitDepth === 2 ||
+				bitDepth === 4 ||
+				bitDepth === 8 ||
+				bitDepth === 16
+			);
+
+		case PNG_COLOR_TYPES.rgb:
+			return bitDepth === 8 || bitDepth === 16;
+
+		case PNG_COLOR_TYPES.plte:
+			return (
+				bitDepth === 1 ||
+				bitDepth === 2 ||
+				bitDepth === 4 ||
+				bitDepth === 8
+			);
+
+		case PNG_COLOR_TYPES.grayscaleAlpha:
+			return bitDepth === 8 || bitDepth === 16;
+
+		case PNG_COLOR_TYPES.rgbAlpha:
+			return bitDepth === 8 || bitDepth === 16;
+	}
+}
+
+module.exports = {
+	processPNG,
+	getIHDR,
+	getPNGChunks,
+	isValidPNG,
+	isValidPLTE,
+	isValidBitDepthAndColorType,
+};

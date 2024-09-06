@@ -26,5 +26,8 @@
     "url": "https://github.com/Ragudos/Image-Parser.git",
     "type": "Github"
   },
-  "license": "CC BY 4.0"
+  "license": "CC BY 4.0",
+  "dependencies": {
+    "@image-parser/core": "^1.0.0"
+  }
 }

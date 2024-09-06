@@ -34,4 +34,12 @@ const CHARACTER_ASCII_CODES = Object.freeze({
 	T: 84,
 });
 
-module.exports = { CHARACTER_ASCII_CODES, PNG_SIGNATURE };
+const PNG_COLOR_TYPES = Object.freeze({
+	grayscale: 0,
+	rgb: 2,
+	plte: 3,
+	grayscaleAlpha: 4,
+	rgbAlpha: 6,
+});
+
+module.exports = { CHARACTER_ASCII_CODES, PNG_SIGNATURE, PNG_COLOR_TYPES };

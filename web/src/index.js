@@ -6,3 +6,5 @@
  * Full license text: https://creativecommons.org/licenses/by/4.0/
  * Copyright (c) 2024 Aaron Ragudos
  */
+
+const { isValidPNG } = require("@image-parser/core/src");
