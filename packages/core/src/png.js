@@ -13,7 +13,7 @@ const {
 	assert,
 	UnimplementedError,
 	isNumber,
-} = require("@image-parser/utils/src");
+} = require("@image-parser/utils");
 const {
 	PNG_SIGNATURE,
 	CHARACTER_ASCII_CODES,

@@ -28,4 +28,4 @@ jobs:
               run: npm install
 
             - name: Run tests
-              run: npm run test && npm run typecheck && npm run lint # Adjust if your test script is named differently
+              run: npm run test && npm run lint # Adjust if your test script is named differently

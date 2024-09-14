@@ -15,4 +15,9 @@
     "include": [
         "src/**/*.js",
     ],
+    "references": [
+        {
+            "path": "../utils"
+        }
+    ]
 }

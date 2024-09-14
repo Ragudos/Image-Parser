@@ -7,7 +7,7 @@
  * Copyright (c) 2024 Aaron Ragudos
  */
 
-const { MAX_UINT_32BIT, MAX_UINT_8BIT } = require("@image-parser/utils/src");
+const { MAX_UINT_32BIT, MAX_UINT_8BIT } = require("@image-parser/utils");
 
 /**
  * @fileoverview Responsible for CRC calculations

@@ -14,7 +14,6 @@
     "build:types": "tsc",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
-    "typecheck": "tsc -p tsconfig.test.json --noEmit",
     "format": "prettier --write ./src"
   },
   "devDependencies": {

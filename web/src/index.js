@@ -7,4 +7,3 @@
  * Copyright (c) 2024 Aaron Ragudos
  */
 
-const { isValidPNG } = require("@image-parser/core/src");

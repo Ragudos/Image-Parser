@@ -1,9 +1,15 @@
 {
     "files": [],
     "references": [
-        { "path": "./packages/core" },
-        { "path": "./packages/utils" },
-        { "path": "./web" }
+        {
+            "path": "./packages/core"
+        },
+        {
+            "path": "./packages/utils"
+        },
+        {
+            "path": "./web"
+        }
     ],
     "compilerOptions": {
         "allowJs": true,
@@ -16,11 +22,6 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "baseUrl": ".",
-
-        "paths": {
-            "@image-parser/utils/*": ["./packages/utils/*"],
-            "@image-parser/core/*": ["./packages/core/*"]
-        }
     },
     "exclude": [
         "node_modules/",

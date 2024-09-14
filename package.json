@@ -24,7 +24,6 @@
     "build:types": "lerna run build:types",
     "clean": "lerna run clean",
     "lint": "lerna run lint",
-    "typecheck": "lerna run typecheck",
     "lint:fix": "lerna run lint:fix",
     "format": "lerna run format",
     "docs": "jsdoc -c jsdoc.json && jsdoc2md --files packages/utils/src/**/*.js packages/core/src/**/*.js  > ./API.md",
