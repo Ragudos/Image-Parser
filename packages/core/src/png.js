@@ -242,10 +242,12 @@ function getPNGChunks(rawData) {
 			rawData[offset++]
 		);
 
-		// TODO: calculate the CRC here to check for data corruption of the chunk.
 		const calculatedCRC = CRC.calculateCRC(
 			rawData.slice(offset, offset + 4 + chunkLength)
 		);
+
+		// TODO: Have a option where ancillary chunks are skipped to make this
+		// useful
 
 		const ancillaryBit = rawData[offset++];
 		const privacyBit = rawData[offset++];
