@@ -9,6 +9,7 @@ Below are the resources and applications I use to understand the concepts in thi
 - [bitwisecmd, Bitwise Calculator](https://bitwisecmd.com/)
 - [libpng, Information about PNG](http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html)
 - [W3Schools, Basic knowledge about bitwise operators](https://www.w3schools.com/js/js_bitwise.asp)
+- [libpng, layout of image](http://www.libpng.org/pub/png/spec/1.2/PNG-DataRep.html#DR.Image-layout)
 
 ## License
 

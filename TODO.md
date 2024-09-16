@@ -3,7 +3,7 @@
 - Make template for documentation of code to be readable and elegant
 - Functions to extract, manipulate, or translate the data of images:
     - Load image
-    - Get image dimensions
+    - [x] Get image dimensions
     - Resize image
     - Crop image
     - Convert image
@@ -12,11 +12,11 @@
     - Encode data filters
     - Decode data filters
     - If time permits, our own decompression and compression
-    - If time permits, our own CRC calculator
+    - [x] If time permits, our own CRC calculator
 - Functions for utils for bit and byte manipulation, extraction, etc:
-  - extract byte
-  - get byte at
-  - read bits
+  - [x] extract byte
+  - [x] get byte at
+  - [x] read bits
   - write bits
   - set byte at
   - get pixel

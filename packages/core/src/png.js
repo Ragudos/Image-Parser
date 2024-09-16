@@ -54,15 +54,108 @@ const { CRC } = require("./crc");
 
 /**
  *
- * @param {Uint8Array} _rawData
+ * @param {Uint8Array} rawData
  */
-function processPNG(_rawData) {
-	throw new UnimplementedError();
-
-	/*isValidPNG(rawData);
+function processPNG(rawData) {
+	isValidPNG(rawData);
 
 	const chunks = getPNGChunks(rawData);
-	const header = getIHDR(chunks);*/
+
+	if (chunks.at(-1)?.typeCode !== "IEND") {
+		throw new Error(
+			"PNG chunks/data should have an IEND chunk as its last chunk."
+		);
+	}
+
+	const header = getIHDR(chunks);
+
+	/**
+	 *
+	 * @type {Uint8Array | undefined}
+	 */
+	let plte;
+
+	// Since only a color type of 3 is when a PLTE is required and for 2 and 6 has optional PLTEs
+	if (header.colorType === 3) {
+		plte = getPLTE(chunks, header);
+	} else if (header.colorType === 2 || header.colorType === 6) {
+		//
+	}
+
+	const rawIDAT = getRawIDAT(chunks);
+
+	// TODO: Get possible ancillary chunks in the future
+
+}
+
+/**
+ *
+ * @param {PngChunk[]} chunks
+ *
+ * @returns {PngChunk[]}
+ *
+ * @throws {Error} if IDAT chunks' stream is interrupted by a different chunk.
+ */
+function getRawIDAT(chunks) {
+	/**
+	 *
+	 * @type {PngChunk[]}
+	 */
+	const rawIDAT = [];
+
+	// start at 1 since IHDR should be the first chunk
+	for (let i = 1; i < chunks.length; ++i) {
+		if (chunks[i].typeCode === "IDAT") {
+			rawIDAT.push(chunks[i]);
+		} else if (chunks[i].typeCode !== "IEND") {
+			if (chunks.at(i + 1)?.typeCode === "IDAT" && rawIDAT.length !== 0) {
+				throw new Error(
+					"IDAT chunk stream is interrupted and not continuous at chunk index " +
+					i
+				);
+			}
+		}
+	}
+
+	return rawIDAT;
+}
+
+/**
+ *
+ * @param {PngChunk[]} chunks
+ * @param {PngMetadata} header
+ *
+ * @returns {Uint8Array | undefined}
+ *
+ * @throws {RangeError} when PLTE palette entries is more than `colorType^bitDepth`
+ */
+function getPLTE(chunks, header) {
+	// start at 1 since IHDR should be the first chunk
+	for (let i = 1; i < chunks.length; ++i) {
+		if (chunks[i].typeCode === "PLTE") {
+			if (
+				chunks[i].data.length >
+				Math.pow(header.colorType, header.bitDepth)
+			) {
+				/**
+				 *
+				 * For color type 3 (indexed color), the PLTE chunk is required.
+				 * The first entry in PLTE is referenced by pixel value 0, the second by pixel value 1, etc.
+				 * The number of palette entries must not exceed the range that can be represented in the image bit depth
+				 * (for example, 24 = 16 for a bit depth of 4). It is permissible to have fewer entries than the bit depth would allow.
+				 * In that case, any out-of-range pixel value found in the image data is an error.
+				 */
+				throw new RangeError(
+					"PLTE palette entries range more than the possible range a pixel can represent with colorType of " +
+					header.colorType +
+					" and bit depth of " +
+					header.bitDepth
+				);
+			}
+
+			return chunks[i].data;
+		}
+	}
 }
 
 /**
@@ -204,7 +297,7 @@ function isValidPNG(rawData) {
 
 /**
  * @param {Uint8Array} plteChunkData
- * @returns
+ * @returns {boolean}
  */
 function isValidPLTE(plteChunkData) {
 	return plteChunkData.length % 3 === 0;
