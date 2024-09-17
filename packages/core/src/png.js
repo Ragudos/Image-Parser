@@ -1,3 +1,6 @@
+// TODO: check if chunks are corrupted and, in a future,
+// bundling of errors, log all of those or something.
+
 /**
  * @license
  *
@@ -85,6 +88,7 @@ function processPNG(rawData) {
 	const rawIDAT = getRawIDAT(chunks);
 
 	// TODO: Get possible ancillary chunks in the future
+	console.log(chunks, header, plte, rawIDAT);
 
 }
 
@@ -244,7 +248,7 @@ function getPNGChunks(rawData) {
 
 		const calculatedCRC = CRC.calculateCRC(
 			rawData.slice(offset, offset + 4 + chunkLength)
-		);
+		) >>> 0;
 
 		// TODO: Have a option where ancillary chunks are skipped to make this
 		// useful

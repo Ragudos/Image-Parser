@@ -12,4 +12,9 @@
     "exclude": [
         "node_modules/"
     ],
+    "references": [
+        {
+            "path": "../packages/core"
+        }
+    ]
 }
