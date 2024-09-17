@@ -94,7 +94,85 @@ function processPNG(rawData) {
 
 	const decompressedIDAT = deflate(flattenChunks(rawIDAT.map((idat) => idat.data)));
 
-	console.log(decompressedIDAT);
+}
+
+/**
+ *
+ * Undo the filter on the decompressed image data (IDAT). The result of this
+ * will be the final PNG data.
+ *
+ * @param {Uint8Array} decompressedIDAT
+ * @param {PngMetadata} header
+ */
+function reverseFilter(decompressedIDAT, header) {
+	// scanlines means rows.
+	const bpp = getBpp(header);
+	const columnLength = header.width * bpp;
+
+	// Since decompressedIDAT is 1D, we need an index
+	// to base on to get the specific rows/scanline.
+	let index = 0;
+
+	const result = [];
+
+	for (let y = 0; y < header.height; ++y) {
+		const filterType = decompressedIDAT[index];
+
+		// +1 since the very beginning of each row/scanline
+		// is the filter type
+		index += 1;
+
+		const row = decompressedIDAT.slice(index, index + columnLength);
+		const unfilteredRow = new Uint8Array(columnLength);
+
+		switch (filterType) {
+			case 0: {
+				unfilteredRow.set(row);
+			}
+				break;
+
+			case 1: {
+				//
+			}
+				break;
+
+			case 2: {
+				//
+			}
+				break;
+
+			case 3: {
+				//
+			}
+				break;
+
+			case 4: {
+				//
+			}
+				break;
+		}
+
+	}
+}
+
+/**
+ *
+ * Number of bytes per complete pixel. For example,
+ * if the image data uses PLTE, then it would only be one
+ * byte per pixel (the index in the plte) and such.
+ *
+ * @param {PngMetadata} header
+ *
+ * @returns {number}
+ */
+function getBpp(header) {
+	if (header.colorType === 2 && header.bitDepth === 16) {
+		return 6;
+	} else if (header.colorType === 4 && header.bitDepth === 16) {
+		return 4;
+	} else {
+		return 1;
+	}
 }
 
 /**

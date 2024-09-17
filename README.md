@@ -15,6 +15,7 @@ Below are the resources and applications I use to understand the concepts in thi
 - [W3Schools, Basic knowledge about bitwise operators](https://www.w3schools.com/js/js_bitwise.asp)
 - [libpng, layout of image](http://www.libpng.org/pub/png/spec/1.2/PNG-DataRep.html#DR.Image-layout)
 - [Google patent, DEFLATE decompress algorithm](https://patents.google.com/patent/US9577665B2/en)
+- [Test Suite for PNG](http://www.libpng.org/pub/png/pngsuite.html)
 
 ## License
 

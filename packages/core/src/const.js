@@ -42,4 +42,12 @@ const PNG_COLOR_TYPES = Object.freeze({
 	rgbAlpha: 6,
 });
 
+const FILTER_TYPES = Object.freeze({
+	None: 0,
+	Sub: 1,
+	Up: 2,
+	Average: 3,
+	Paeth: 4,
+});
+
 module.exports = { CHARACTER_ASCII_CODES, PNG_SIGNATURE, PNG_COLOR_TYPES };
