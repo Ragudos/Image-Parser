@@ -18,7 +18,7 @@ Below are the resources and applications I use to understand the concepts in thi
 
 ## License
 
-All code except the libraries used currently are subject to their own Licenses. Please refer to them:
+All code except the libraries used currently, which are subject to their own Licenses, is under CC BY 4.0. Please refer to them:
 
 - CC BY 4.0 - Code written/modified by me
 - MIT & ZLIB - [Pako for Compression and Decompression](https://github.com/nodeca/pako/blob/master/lib/utils/common.js)
