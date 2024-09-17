@@ -16,6 +16,7 @@ const {
 	assert,
 	UnimplementedError,
 	isNumber,
+	flattenChunks,
 } = require("@image-parser/utils");
 const {
 	PNG_SIGNATURE,
@@ -23,6 +24,7 @@ const {
 	PNG_COLOR_TYPES,
 } = require("./const");
 const { CRC } = require("./crc");
+const { deflate } = require("pako");
 
 /**
  * @fileoverview ALl PNG related operations are in this file.
@@ -90,6 +92,9 @@ function processPNG(rawData) {
 	// TODO: Get possible ancillary chunks in the future
 	console.log(chunks, header, plte, rawIDAT);
 
+	const decompressedIDAT = deflate(flattenChunks(rawIDAT.map((idat) => idat.data)));
+
+	console.log(decompressedIDAT);
 }
 
 /**
@@ -281,8 +286,8 @@ function getPNGChunks(rawData) {
 			isCorrupted: crc !== calculatedCRC,
 			isSafe:
 				isCriticalChunk &&
-				ancillaryBit !== CHARACTER_ASCII_CODES.I &&
-				ancillaryBit !== CHARACTER_ASCII_CODES.P,
+				(ancillaryBit !== CHARACTER_ASCII_CODES.I &&
+					ancillaryBit !== CHARACTER_ASCII_CODES.P),
 		});
 	}
 
@@ -294,7 +299,7 @@ function getPNGChunks(rawData) {
  * @param {Uint8Array} rawData
  */
 function isValidPNG(rawData) {
-	for (let i = 0; i < PNG_SIGNATURE.length; ++i) {
+	for (let i = 0, l = PNG_SIGNATURE.length; i < l; ++i) {
 		if (rawData[i] !== PNG_SIGNATURE[i]) {
 			throw new TypeError();
 		}

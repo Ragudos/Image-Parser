@@ -14,4 +14,5 @@ module.exports = {
 	...require("./numbers/compute/conversion"),
 	...require("./debug/errors"),
 	...require("./is"),
+	...require("./array")
 };
