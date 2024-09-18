@@ -17,6 +17,8 @@ const {
 	UnimplementedError,
 	isNumber,
 	flattenChunks,
+	MAX_UINT_8BIT_PLUS1,
+	MAX_UINT_8BIT,
 } = require("@image-parser/utils");
 const {
 	PNG_SIGNATURE,
@@ -94,6 +96,7 @@ function processPNG(rawData) {
 
 	const decompressedIDAT = deflate(flattenChunks(rawIDAT.map((idat) => idat.data)));
 
+	console.log(decompressedIDAT);
 }
 
 /**
@@ -132,7 +135,7 @@ function reverseFilter(decompressedIDAT, header) {
 				break;
 
 			case 1: {
-				//
+				unfilteredRow.set(subFilter("unfilter", row, bpp));
 			}
 				break;
 
@@ -153,6 +156,60 @@ function reverseFilter(decompressedIDAT, header) {
 		}
 
 	}
+}
+
+/**
+ *
+ * @param {"filter" | "unfilter"} mode
+ * @param {Uint8Array} data The scanline/row
+ * @param {number} bpp
+ *
+ * @returns {Uint8Array}
+ */
+function subFilter(mode, data, bpp) {
+	if (mode === "filter") {
+		return subFilterF(data);
+	}
+	else if (mode === "unfilter") {
+		return subFilterUF(data, bpp);
+	}
+
+	throw new TypeError("Invalid mode of filter");
+}
+
+/**
+ *
+ * @param {Uint8Array} data
+ *
+ * @returns {Uint8Array}
+ */
+function subFilterF(data) {
+	throw new UnimplementedError();
+}
+
+/**
+ *
+ * @param {Uint8Array} data
+ * @param {number} bpp
+ *
+ * @returns {Uint8Array}
+ */
+function subFilterUF(data, bpp) {
+	/**
+	 *
+	 * @type {number[]}
+	 */
+	const result = [];
+
+	for (let x = 0; x < data.length; ++x) {
+		if (x < bpp) {
+			result.push(data[x]);
+		} else {
+			result.push((data[x] + result[x - bpp]) & MAX_UINT_8BIT);
+		}
+	}
+
+	return new Uint8Array(result);
 }
 
 /**
