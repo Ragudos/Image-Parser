@@ -12,7 +12,7 @@
     "format": "prettier --write ./src"
   },
   "devDependencies": {
-    "esbuild": "^0.23.1"
+    "esbuild": "^0.25.0"
   },
   "keywords": [
     "Image parsing"
