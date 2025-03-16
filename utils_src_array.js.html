@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Global - Documentation</title>
+    <title>utils/src/array.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,185 +37,54 @@
 
 <div id="main">
     
-    <h1 class="page-title">Global</h1>
+    <h1 class="page-title">utils/src/array.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-        
-            
-        
-        </h2>
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ *
+ * @fileoverview Some array operations are in this file
+ *
+ * @module utils/array
+ */
 
-<article>
-    
-        <div class="container-overview">
-        
-            
+/**
+ *
+ * @param {Uint8Array[]} chunks
+ *
+ * @returns {Uint8Array}
+ *
+ * @see {@link https://github.com/nodeca/pako/blob/master/lib/utils/common.js}
+ */
+function flattenChunks(chunks) {
+    let len = 0;
 
-<dl class="details">
-    
+    for (let i = 0; i &lt; chunks.length; ++i) {
+        len += chunks[i].length;
+    }
 
-    
+    const flattenedChunk = new Uint8Array(len);
 
-    
+    for (let i = 0, pos = 0; i &lt; chunks.length; ++i) {
+        let chunk = chunks[i];
 
-    
+        flattenedChunk.set(chunk, pos);
+        pos += chunk.length;
+    }
 
-    
+    return flattenedChunk;
+}
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-            
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="PNG_SIGNATURE"><span class="type-signature type-signature-constant">(constant) </span>PNG_SIGNATURE<span class="type-signature"></span></h4>
-
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>A PNG file will always have this first 8 bytes.</p>
-<p>In <em>decimal (base-10)</em>, it looks like:</p>
-<pre class="prettyprint source lang-javascript"><code>[137, 80, 78, 71, 13, 10, 26, 10]
-</code></pre></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_src_const.js.html">core/src/const.js</a>, <a href="core_src_const.js.html#line20">line 20</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html">http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>A PNG file will always have this first 8 bytes.</p>
-<p>In <em>decimal (base-10)</em>, it looks like:</p>
-<pre class="prettyprint source lang-javascript"><code>[137, 80, 78, 71, 13, 10, 26, 10]
+module.exports = { flattenChunks };
 </code></pre>
-</div>
-
-
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+        </article>
+    </section>
 
 
 
