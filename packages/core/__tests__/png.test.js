@@ -1,5 +1,5 @@
-import { describe, test } from "@jest/globals";
+const { describe, test, expect } = require("@jest/globals");
 
 describe("Testing PNG functions", () => {
-    test("Expect signature to be valid", () => { });
+	test("Expect signature to be valid", () => {});
 });

@@ -104,7 +104,6 @@ export default [
 				{
 					blankLine: "always",
 					prev: ["case", "default"],
-					next: "*",
 				},
 				{
 					blankLine: "always",

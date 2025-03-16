@@ -83,6 +83,20 @@ function processPNG(rawData) {
 	let plte;
 
 	// Since only a color type of 3 is when a PLTE is required and for 2 and 6 has optional PLTEs
+	switch (header.colorType) {
+		case 0:
+			// grayscale
+			break;
+
+		case 2:
+			// truecolor
+			break;
+
+		case 3:
+			// indexed-color (palette)
+			break;
+	}
+
 	if (header.colorType === 3) {
 		plte = getPLTE(chunks, header);
 	} else if (header.colorType === 2 || header.colorType === 6) {
@@ -524,3 +538,4 @@ module.exports = {
 	isValidPLTE,
 	isValidBitDepthAndColorType,
 };
+
