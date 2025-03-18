@@ -1,46 +1,24 @@
+/**
+ * @license
+ *
+ * This code is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
+ * See the LICENSE file for details.
+ * Full license text: https://creativecommons.org/licenses/by/4.0/
+ * Copyright (c) 2024 Aaron Ragudos
+ */
+
+/**
+ * @fileoverview Responsible for decoding PNGs
+ *
+ * @module core/png/decoder
+ */
+
 const { PNG_SIGNATURE } = require("src/const");
 const PngChunk = require("./chunk");
 const { assert, flattenChunks, MAX_UINT_8BIT } = require("@image-parser/utils");
 const PngHeader = require("./header");
 const { inflate } = require("pako");
-
-class PngData {
-	/**
-	 * @type {PngHeader}
-	 */
-	#header;
-	/**
-	 * @type {Uint8Array}
-	 */
-	#data;
-	/**
-	 * @type {Uint8Array | null}
-	 */
-	#plte;
-
-	/**
-	 * @param {PngHeader} header
-	 * @param {Uint8Array} data
-	 * @param {Uint8Array | null} plte
-	 */
-	constructor(header, data, plte) {
-		this.#header = header;
-		this.#data = data;
-		this.#plte = plte;
-	}
-
-	get header() {
-		return this.#header;
-	}
-
-	get data() {
-		return this.#data;
-	}
-
-	get plte() {
-		return this.#plte;
-	}
-}
+const PngData = require("./data");
 
 class PngDecoder {
 	/**
@@ -327,7 +305,6 @@ class PngDecoder {
 	 * @returns {Uint8Array}
 	 */
 	#decodeFilter(decompressedIDAT, columnLength, bpp) {
-		console.log(decompressedIDAT);
 		// Since decompressedIDAT is 1D, we need an index
 		// to base on to get the specific rows/scanline.
 		let idx = 0;

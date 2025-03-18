@@ -1,3 +1,18 @@
+/**
+ * @license
+ *
+ * This code is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
+ * See the LICENSE file for details.
+ * Full license text: https://creativecommons.org/licenses/by/4.0/
+ * Copyright (c) 2024 Aaron Ragudos
+ */
+
+/**
+ * @fileoverview The PNG header chunk class
+ *
+ * @module core/png/header
+ */
+
 const { assert, bytesTo32BitUint, isNumber } = require("@image-parser/utils");
 const PngChunk = require("./chunk");
 const { CHARACTER_ASCII_CODES, PNG_COLOR_TYPES } = require("src/const");

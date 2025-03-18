@@ -1,3 +1,18 @@
+/**
+ * @license
+ *
+ * This code is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
+ * See the LICENSE file for details.
+ * Full license text: https://creativecommons.org/licenses/by/4.0/
+ * Copyright (c) 2024 Aaron Ragudos
+ */
+
+/**
+ * @fileoverview The PNG chunk class
+ *
+ * @module core/png/chunk
+ */
+
 const { bytesTo32BitUint, getBitAt } = require("@image-parser/utils");
 const {
 	CHARACTER_ASCII_CODES,
@@ -214,34 +229,53 @@ class PngChunk {
 		);
 	}
 
-	isChunkTypeValid() {
+	isAncillaryValid() {
 		return (
 			(this.#chunkAncillaryValue >= MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
 				this.#chunkAncillaryValue <=
-					MAX_LOWERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkPrivacyValue >= MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkPrivacyValue <= MAX_LOWERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkReservedValue >=
-					MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkReservedValue <=
-					MAX_LOWERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkSafeToCopyValue >=
-					MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkSafeToCopyValue <=
 					MAX_LOWERCASE_CHARACTER_ASCII_CODE) ||
 			(this.#chunkAncillaryValue >= MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkAncillaryValue <=
-					MAX_UPPERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkPrivacyValue >= MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkPrivacyValue <= MAX_UPPERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkReservedValue >=
-					MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkAncillaryValue <= MAX_UPPERCASE_CHARACTER_ASCII_CODE)
+		);
+	}
+
+	isPrivacyValid() {
+		return (
+			(this.#chunkPrivacyValue >= MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkPrivacyValue <=
+					MAX_LOWERCASE_CHARACTER_ASCII_CODE) ||
+			(this.#chunkPrivacyValue >= MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkPrivacyValue <= MAX_UPPERCASE_CHARACTER_ASCII_CODE)
+		);
+	}
+
+	isReservedValid() {
+		return (
+			(this.#chunkReservedValue >= MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
 				this.#chunkReservedValue <=
-					MAX_UPPERCASE_CHARACTER_ASCII_CODE &&
-				this.#chunkSafeToCopyValue >=
-					MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
+					MAX_LOWERCASE_CHARACTER_ASCII_CODE) ||
+			(this.#chunkReservedValue >= MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkReservedValue <= MAX_UPPERCASE_CHARACTER_ASCII_CODE)
+		);
+	}
+
+	isSafeToCopyValid() {
+		return (
+			(this.#chunkSafeToCopyValue >= MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkSafeToCopyValue <=
+					MAX_LOWERCASE_CHARACTER_ASCII_CODE) ||
+			(this.#chunkSafeToCopyValue >= MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
 				this.#chunkSafeToCopyValue <=
 					MAX_UPPERCASE_CHARACTER_ASCII_CODE)
+		);
+	}
+
+	isChunkTypeValid() {
+		return (
+			this.isAncillaryValid() &&
+			this.isPrivacyValid() &&
+			this.isReservedValid() &&
+			this.isSafeToCopyValid()
 		);
 	}
 
@@ -254,7 +288,7 @@ class PngChunk {
 			}
 		}
 
-		if (!this.isCritical() && !this.isChunkTypeValid()) {
+		if (!this.isChunkTypeValid()) {
 			throw new Error("Invalid chunk type.");
 		}
 	}

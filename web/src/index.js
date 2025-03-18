@@ -6,86 +6,73 @@
  * Full license text: https://creativecommons.org/licenses/by/4.0/
  * Copyright (c) 2024 Aaron Ragudos
  */
+const { PngDecoder, PngDisplayReader } = require("@image-parser/core");
 
-const { PngDecoder } = require("@image-parser/core");
-
-const images = new Array(115).fill(0).map((_, i) => {
-	i += 1;
-
-	if (i < 10) {
-		return `00${i}`;
-	}
-
-	if (i < 100) {
-		return `0${i}`;
-	}
-
-	return `${i}`;
-});
-/**
- * @type {HTMLCanvasElement}
- */
-// @ts-ignore
-const canvas = document.getElementById("canvas");
-let curr = 0;
-let lastTime = 0;
-const fps = 4;
-const interval = 1000 / fps;
+window.addEventListener("DOMContentLoaded", init);
 
 /**
- * @param {number} currTime
+ *
  */
-function draw(currTime) {
-	if (currTime - lastTime >= interval) {
-		lastTime = currTime;
-		curr = (curr + 1) % images.length;
+function init() {
+	const decodeBtn = document.getElementById("decode-button");
 
-		fetch(`./assets/talents-guild/ezgif-frame-${images[curr]}.png`).then(
-			(res) => {
-				res.arrayBuffer().then((buf) => {
-					const decoder = new PngDecoder(new Uint8Array(buf));
-					const decodedData = decoder.decode();
+	console.log(decodeBtn);
 
-					canvas.width = decodedData.header.width;
-					canvas.height = decodedData.header.height;
-
-					/**
-					 * @type {CanvasRenderingContext2D}
-					 */
-					// @ts-ignore
-					const ctx = canvas.getContext("2d");
-
-					const imgData = ctx.createImageData(
-						decodedData.header.width,
-						decodedData.header.height
-					);
-
-					let offset = 0;
-
-					for (let y = 0; y < decodedData.header.height; ++y) {
-						for (let x = 0; x < decodedData.header.width; ++x) {
-							const r = decodedData.data[offset++];
-							const g = decodedData.data[offset++];
-							const b = decodedData.data[offset++];
-
-							const i = (y * decodedData.header.width + x) * 4;
-
-							imgData.data[i] = r;
-							imgData.data[i + 1] = g;
-							imgData.data[i + 2] = b;
-							imgData.data[i + 3] = 255;
-						}
-					}
-
-					ctx.putImageData(imgData, 0, 0);
-
-					requestAnimationFrame(draw);
-				});
-			}
-		);
-	}
-
-	requestAnimationFrame(draw);
+	decodeBtn?.addEventListener("click", onDecodeBtnClick);
 }
 
-requestAnimationFrame(draw);
+/**
+ *
+ */
+function onDecodeBtnClick() {
+	const input = /** @type {HTMLInputElement} */ (
+		document.getElementById("file-input")
+	);
+
+	if (!input || !input.files || !input.files[0]) {
+		return alert("Please select a file to decode.");
+	}
+
+	const file = input.files[0];
+	const reader = new FileReader();
+
+	reader.onload = onFileRead;
+	reader.readAsArrayBuffer(file);
+}
+
+/**
+ * @param {ProgressEvent<FileReader>} e
+ * @this {FileReader}
+ *
+ * @returns {void}
+ */
+function onFileRead(e) {
+	const result = this.result;
+
+	if (!result) {
+		return alert("Failed to read file.");
+	}
+
+	if (typeof result === "string") {
+		const text = result;
+		const decodedText = decodeURIComponent(text);
+		const output = document.getElementById("output");
+
+		if (!output) {
+			return alert("Failed to find output element.");
+		}
+
+		output.textContent = decodedText;
+	} else {
+		const decoder = new PngDecoder(new Uint8Array(result));
+		const data = decoder.decode();
+
+		console.log(data);
+
+		new PngDisplayReader(
+			data,
+			// @ts-ignore
+			document.querySelector("canvas.image")
+		).render();
+	}
+}

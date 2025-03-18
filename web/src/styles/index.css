@@ -1,0 +1,11 @@
+@import "./resets.css";
+
+html {
+	color-scheme: dark;
+}
+
+canvas.image {
+	display: block;
+	margin: 0 auto;
+	max-width: 100%;
+}
