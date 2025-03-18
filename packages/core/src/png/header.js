@@ -4,53 +4,47 @@ const { CHARACTER_ASCII_CODES, PNG_COLOR_TYPES } = require("src/const");
 
 class PngHeader {
 	/**
-	 * @type {Array<PngChunk>}
+	 * @type {PngChunk}
 	 */
-	#chunkData;
-
+	#chunk;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#width;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#height;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#bitDepth;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#colorType;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#compressionMethod;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#filterMethod;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#interlaceMethd;
 
-	/**
-	 * @param {Array<PngChunk>} chunkData
-	 */
-	constructor(chunkData) {
-		this.#chunkData = chunkData;
+	static HEADER_LENGTH = 13;
 
-		assert(this.#chunkData.length > 0, "No chunks found.");
+	/**
+	 * @param {PngChunk} chunk
+	 */
+	constructor(chunk) {
+		this.#chunk = chunk;
+
+		assert(this.#chunk.chunkData.length > 0, "No chunk data found.");
 		assert(this.#isChunkDataHeader(), "Chunk data is not a header.");
 
 		this.#parseHeader();
@@ -89,7 +83,7 @@ class PngHeader {
 		return this.#filterMethod;
 	}
 
-	get interlaceMethd() {
+	get interlaceMethod() {
 		return this.#interlaceMethd;
 	}
 
@@ -97,36 +91,32 @@ class PngHeader {
 	 * @returns {boolean}
 	 */
 	#isChunkDataHeader() {
-		const firstChunk = this.#chunkData[0];
-
 		return (
-			firstChunk.chunkAncillaryBit === CHARACTER_ASCII_CODES.I &&
-			firstChunk.chunkPrivacyBit === CHARACTER_ASCII_CODES.H &&
-			firstChunk.chunkReservedBit === CHARACTER_ASCII_CODES.D &&
-			firstChunk.chunkSafeToCopyBit === CHARACTER_ASCII_CODES.R
+			this.#chunk.chunkAncillaryValue === CHARACTER_ASCII_CODES.I &&
+			this.#chunk.chunkPrivacyValue === CHARACTER_ASCII_CODES.H &&
+			this.#chunk.chunkReservedValue === CHARACTER_ASCII_CODES.D &&
+			this.#chunk.chunkSafeToCopyValue === CHARACTER_ASCII_CODES.R
 		);
 	}
 
 	#parseHeader() {
-		const headerChunk = this.#chunkData[0];
-
 		this.#width = bytesTo32BitUint(
-			headerChunk.chunkData[0],
-			headerChunk.chunkData[1],
-			headerChunk.chunkData[2],
-			headerChunk.chunkData[3]
+			this.#chunk.chunkData[0],
+			this.#chunk.chunkData[1],
+			this.#chunk.chunkData[2],
+			this.#chunk.chunkData[3]
 		);
 		this.#height = bytesTo32BitUint(
-			headerChunk.chunkData[4],
-			headerChunk.chunkData[5],
-			headerChunk.chunkData[6],
-			headerChunk.chunkData[7]
+			this.#chunk.chunkData[4],
+			this.#chunk.chunkData[5],
+			this.#chunk.chunkData[6],
+			this.#chunk.chunkData[7]
 		);
-		this.#bitDepth = headerChunk.chunkData[8];
-		this.#colorType = headerChunk.chunkData[9];
-		this.#compressionMethod = headerChunk.chunkData[10];
-		this.#filterMethod = headerChunk.chunkData[11];
-		this.#interlaceMethd = headerChunk.chunkData[12];
+		this.#bitDepth = this.#chunk.chunkData[8];
+		this.#colorType = this.#chunk.chunkData[9];
+		this.#compressionMethod = this.#chunk.chunkData[10];
+		this.#filterMethod = this.#chunk.chunkData[11];
+		this.#interlaceMethd = this.#chunk.chunkData[12];
 	}
 
 	/**

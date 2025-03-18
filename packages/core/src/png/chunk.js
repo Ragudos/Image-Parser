@@ -1,6 +1,17 @@
 const { bytesTo32BitUint, getBitAt } = require("@image-parser/utils");
+const {
+	CHARACTER_ASCII_CODES,
+	MIN_LOWERCASE_CHARACTER_ASCII_CODE,
+	MAX_LOWERCASE_CHARACTER_ASCII_CODE,
+	MIN_UPPERCASE_CHARACTER_ASCII_CODE,
+	MAX_UPPERCASE_CHARACTER_ASCII_CODE,
+} = require("src/const");
 const { CRC } = require("src/crc");
+const PngHeader = require("./header");
 
+/**
+ * @class PngChunk
+ */
 class PngChunk {
 	/**
 	 * @type {number}
@@ -11,65 +22,52 @@ class PngChunk {
 	 */
 	#chunkRawData;
 	/**
-	 * @type {number} chunkLength
+	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkLength;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkAncillaryValue;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkAncillaryBit;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkPrivacyValue;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkPrivacyBit;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkReservedValue;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkReservedBit;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkSafeToCopyValue;
 	/**
 	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkSafeToCopyBit;
 	/**
-	 * @param {Uint8Array} chunkData
+	 * @type {Uint8Array}
 	 */
-	// @ts-ignore
 	#chunkData;
 	/**
-	 * @param {number} chunkCRC
+	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkCRC;
-
 	/**
-	 * @param {number} chunkCalculatedCRC
+	 * @type {number}
 	 */
-	// @ts-ignore
 	#chunkCalculatedCRC;
 
 	/**
@@ -106,16 +104,32 @@ class PngChunk {
 		return this.#chunkAncillaryBit;
 	}
 
+	get chunkAncillaryValue() {
+		return this.#chunkAncillaryValue;
+	}
+
 	get chunkPrivacyBit() {
 		return this.#chunkPrivacyBit;
+	}
+
+	get chunkPrivacyValue() {
+		return this.#chunkPrivacyValue;
 	}
 
 	get chunkReservedBit() {
 		return this.#chunkReservedBit;
 	}
 
+	get chunkReservedValue() {
+		return this.#chunkReservedValue;
+	}
+
 	get chunkSafeToCopyBit() {
 		return this.#chunkSafeToCopyBit;
+	}
+
+	get chunkSafeToCopyValue() {
+		return this.#chunkSafeToCopyValue;
 	}
 
 	isCritical() {
@@ -148,10 +162,112 @@ class PngChunk {
 		);
 	}
 
-	#calculateCRC() {
-		const calculatedCRC = CRC.calculateCRC(this.#chunkData);
+	isIHDR() {
+		return (
+			this.#chunkRawData[this.#chunkPositionOffset + 4] ===
+				CHARACTER_ASCII_CODES.I &&
+			this.#chunkRawData[this.#chunkPositionOffset + 5] ===
+				CHARACTER_ASCII_CODES.H &&
+			this.#chunkRawData[this.#chunkPositionOffset + 6] ===
+				CHARACTER_ASCII_CODES.D &&
+			this.#chunkRawData[this.#chunkPositionOffset + 7] ===
+				CHARACTER_ASCII_CODES.R
+		);
+	}
 
-		return calculatedCRC;
+	isPLTE() {
+		return (
+			this.#chunkRawData[this.#chunkPositionOffset + 4] ===
+				CHARACTER_ASCII_CODES.P &&
+			this.#chunkRawData[this.#chunkPositionOffset + 5] ===
+				CHARACTER_ASCII_CODES.L &&
+			this.#chunkRawData[this.#chunkPositionOffset + 6] ===
+				CHARACTER_ASCII_CODES.T &&
+			this.#chunkRawData[this.#chunkPositionOffset + 7] ===
+				CHARACTER_ASCII_CODES.E
+		);
+	}
+
+	isIDAT() {
+		return (
+			this.#chunkRawData[this.#chunkPositionOffset + 4] ===
+				CHARACTER_ASCII_CODES.I &&
+			this.#chunkRawData[this.#chunkPositionOffset + 5] ===
+				CHARACTER_ASCII_CODES.D &&
+			this.#chunkRawData[this.#chunkPositionOffset + 6] ===
+				CHARACTER_ASCII_CODES.A &&
+			this.#chunkRawData[this.#chunkPositionOffset + 7] ===
+				CHARACTER_ASCII_CODES.T
+		);
+	}
+
+	isIEND() {
+		return (
+			this.#chunkRawData[this.#chunkPositionOffset + 4] ===
+				CHARACTER_ASCII_CODES.I &&
+			this.#chunkRawData[this.#chunkPositionOffset + 5] ===
+				CHARACTER_ASCII_CODES.E &&
+			this.#chunkRawData[this.#chunkPositionOffset + 6] ===
+				CHARACTER_ASCII_CODES.N &&
+			this.#chunkRawData[this.#chunkPositionOffset + 7] ===
+				CHARACTER_ASCII_CODES.D
+		);
+	}
+
+	isChunkTypeValid() {
+		return (
+			(this.#chunkAncillaryValue >= MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkAncillaryValue <=
+					MAX_LOWERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkPrivacyValue >= MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkPrivacyValue <= MAX_LOWERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkReservedValue >=
+					MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkReservedValue <=
+					MAX_LOWERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkSafeToCopyValue >=
+					MIN_LOWERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkSafeToCopyValue <=
+					MAX_LOWERCASE_CHARACTER_ASCII_CODE) ||
+			(this.#chunkAncillaryValue >= MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkAncillaryValue <=
+					MAX_UPPERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkPrivacyValue >= MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkPrivacyValue <= MAX_UPPERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkReservedValue >=
+					MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkReservedValue <=
+					MAX_UPPERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkSafeToCopyValue >=
+					MIN_UPPERCASE_CHARACTER_ASCII_CODE &&
+				this.#chunkSafeToCopyValue <=
+					MAX_UPPERCASE_CHARACTER_ASCII_CODE)
+		);
+	}
+
+	throwIfInvalidChunk() {
+		if (this.#chunkPositionOffset === 8) {
+			if (!this.isIHDR()) {
+				throw new Error("Invalid PNG file.");
+			} else if (this.#chunkLength !== PngHeader.HEADER_LENGTH) {
+				throw new Error("Invalid IHDR chunk length.");
+			}
+		}
+
+		if (!this.isCritical() && !this.isChunkTypeValid()) {
+			throw new Error("Invalid chunk type.");
+		}
+	}
+
+	#calculateCRC() {
+		return (
+			CRC.calculateCRC(
+				this.#chunkRawData.slice(
+					this.#chunkPositionOffset + 4,
+					this.#chunkPositionOffset + 8 + this.#chunkLength
+				)
+			) >>> 0
+		);
 	}
 
 	#assignChunkLength() {
@@ -176,32 +292,38 @@ class PngChunk {
 		this.#chunkSafeToCopyValue =
 			this.#chunkRawData[this.#chunkPositionOffset + 7];
 		this.#chunkSafeToCopyBit = getBitAt(this.#chunkSafeToCopyValue, 5);
+
+		this.throwIfInvalidChunk();
 	}
 
 	#assignChunkData() {
+		const dataPositionOffset = this.#getChunkDataPositionOffset();
+
 		this.#chunkData = this.#chunkRawData.slice(
-			this.#chunkPositionOffset + 8,
-			this.#chunkPositionOffset + 8 + this.#chunkLength
+			dataPositionOffset,
+			dataPositionOffset + this.#chunkLength
 		);
 	}
 
 	#assignChunkCRC() {
+		const crcPositionOffset = this.#getCRCPositionOffset();
+
 		this.#chunkCRC = bytesTo32BitUint(
-			this.#chunkRawData[
-				this.#chunkPositionOffset + 8 + this.#chunkLength
-			],
-			this.#chunkRawData[
-				this.#chunkPositionOffset + 8 + this.#chunkLength + 1
-			],
-			this.#chunkRawData[
-				this.#chunkPositionOffset + 8 + this.#chunkLength + 2
-			],
-			this.#chunkRawData[
-				this.#chunkPositionOffset + 8 + this.#chunkLength + 3
-			]
+			this.#chunkRawData[crcPositionOffset],
+			this.#chunkRawData[crcPositionOffset + 1],
+			this.#chunkRawData[crcPositionOffset + 2],
+			this.#chunkRawData[crcPositionOffset + 3]
 		);
 
 		this.#chunkCalculatedCRC = this.#calculateCRC();
+	}
+
+	#getChunkDataPositionOffset() {
+		return this.#chunkPositionOffset + 8;
+	}
+
+	#getCRCPositionOffset() {
+		return this.#getChunkDataPositionOffset() + this.#chunkLength;
 	}
 }
 

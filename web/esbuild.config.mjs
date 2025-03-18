@@ -10,7 +10,7 @@ const config = {
 	outdir: "./public/dist",
 	format: "esm",
 	platform: "browser",
-	sourcemap: false,
+	sourcemap: true,
 	outExtension: {
 		".js": ".min.js",
 	},

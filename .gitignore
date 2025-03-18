@@ -6,3 +6,4 @@ build/
 # Just testing stuff on my own in root *.html
 *.html
 *.env
+web/public/assets/talents-guild
