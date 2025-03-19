@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PNG Decoder</title>
+
+    <link rel="stylesheet" href="./dist/styles/index.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section aria-labelledby="main-title" aria-describedby="main-desc">
+            <h1 id="main-title">PNG Decoder</h1>
+            <p id="main-desc">This is a simple PNG decoder that reads a PNG file and displays the image on the screen.</p>
+
+            <div>
+                <input type="file" id="file-input" accept=".png" />
+                <button id="decode-button">Decode</button>
+
+                <div>
+                    <canvas class="image"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer></footer>
+    <script src="./dist/index.min.js"></script>
+</body>
+</html>
