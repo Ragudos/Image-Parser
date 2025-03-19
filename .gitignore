@@ -7,3 +7,4 @@ build/
 *.html
 *.env
 web/public/assets/talents-guild
+*.tsbuildinfo

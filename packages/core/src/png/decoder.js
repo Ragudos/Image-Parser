@@ -130,7 +130,8 @@ class PngDecoder {
 		return new PngData(
 			this.#pngHeader,
 			decodedIDATChunks,
-			this.#getPlteChunk()
+			this.#getPlteChunk(),
+			bpp
 		);
 	}
 
@@ -203,14 +204,14 @@ class PngDecoder {
 	#decodePaethFilter(row, prevDecodedRow, bpp) {
 		for (let x = 0, l = row.length; x < l; ++x) {
 			const prior = prevDecodedRow ? prevDecodedRow[x] : 0;
-			const raw = x < bpp ? row[x] : row[x - bpp];
+			const raw = x < bpp ? 0 : row[x - bpp];
 			const priorRaw = prevDecodedRow
 				? x < bpp
 					? 0
 					: prevDecodedRow[x - bpp]
 				: 0;
 
-			row[x] = row[x] + this.#paethPredictor(raw, prior, priorRaw);
+			row[x] = (row[x] + this.#paethPredictor(raw, prior, priorRaw)) & MAX_UINT_8BIT;
 		}
 
 		return row;
@@ -226,9 +227,9 @@ class PngDecoder {
 	#decodeAverageFilter(row, prevDecodedRow, bpp) {
 		for (let x = 0, l = row.length; x < l; ++x) {
 			const prior = prevDecodedRow ? prevDecodedRow[x] : 0;
-			const raw = x < bpp ? row[x] : row[x - bpp];
+			const raw = x < bpp ? 0 : row[x - bpp];
 
-			row[x] = row[x] + Math.floor(raw + prior) / 2;
+			row[x] = (row[x] + Math.floor((raw + prior) / 2)) & MAX_UINT_8BIT;
 		}
 
 		return row;
@@ -243,7 +244,7 @@ class PngDecoder {
 	#decodeUpFilter(row, prevDecodedRow) {
 		for (let x = 0, l = row.length; x < l; ++x) {
 			row[x] =
-				(row[x] + (prevDecodedRow ? prevDecodedRow[x] : 0)) %
+				(row[x] + (prevDecodedRow ? prevDecodedRow[x] : 0)) &
 				MAX_UINT_8BIT;
 		}
 
@@ -259,7 +260,7 @@ class PngDecoder {
 	#decodeSubFilter(row, bpp) {
 		for (let x = 0, l = row.length; x < l; ++x) {
 			if (x >= bpp) {
-				row[x] = (row[x] + row[x - bpp]) % MAX_UINT_8BIT;
+				row[x] = (row[x] + row[x - bpp]) & MAX_UINT_8BIT;
 			}
 		}
 
@@ -385,7 +386,7 @@ class PngDecoder {
 				this.#pngIDATChunks.push(chunk);
 			} else if (!chunk.isIEND()) {
 				if (
-					this.#pngChunks[i + 1] &&
+					this.#pngChunks[i + 1].isIDAT() &&
 					this.#pngIDATChunks.length !== 0
 				) {
 					throw new Error("IDAT chunks must be consecutive.");

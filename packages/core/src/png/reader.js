@@ -76,18 +76,21 @@ class PngDisplayReader {
 	 */
 	#renderGrayscale(imgData) {
 		let idx = 0;
+		let dataIdx = 0;
+		const len = this.#data.header.width * this.#data.header.height * 4;
 
-		for (let y = 0; y < this.#data.header.height; ++y) {
-			for (let x = 0; x < this.#data.header.width; ++x) {
-				const pixelIdx = (y * this.#data.header.width + x) * 4;
+		while (idx < len) {
+			const rgb = this.#data.data[dataIdx++];
 
-				const pixel = this.#data.data[idx++];
+			const red = rgb;
+			const green = rgb;
+			const blue = rgb;
+			const alpha = 255;
 
-				imgData.data[pixelIdx] = pixel;
-				imgData.data[pixelIdx + 1] = pixel;
-				imgData.data[pixelIdx + 2] = pixel;
-				imgData.data[pixelIdx + 3] = 255;
-			}
+			imgData.data[idx++] = red;
+			imgData.data[idx++] = green;
+			imgData.data[idx++] = blue;
+			imgData.data[idx++] = alpha;
 		}
 
 		this.#ctx.putImageData(imgData, 0, 0);
@@ -97,7 +100,23 @@ class PngDisplayReader {
 	 * @param {ImageData} imgData
 	 */
 	#renderRgb(imgData) {
-		throw new Error("Method not implemented.");
+		let idx = 0;
+		let dataIdx = 0;
+		const len = this.#data.header.width * this.#data.header.height * 4;
+
+		while (idx < len) {
+			const red = this.#data.data[dataIdx++];
+			const green = this.#data.data[dataIdx++];
+			const blue = this.#data.data[dataIdx++];
+			const alpha = 255;
+
+			imgData.data[idx++] = red;
+			imgData.data[idx++] = green;
+			imgData.data[idx++] = blue;
+			imgData.data[idx++] = alpha;
+		}
+
+		this.#ctx.putImageData(imgData, 0, 0);
 	}
 
 	/**
@@ -111,14 +130,48 @@ class PngDisplayReader {
 	 * @param {ImageData} imgData
 	 */
 	#renderGrayscaleAlpha(imgData) {
-		throw new Error("Method not implemented.");
+		let idx = 0;
+		let dataIdx = 0;
+		const len = this.#data.header.width * this.#data.header.height * 4;
+
+		while (idx < len) {
+			const rgb = this.#data.data[dataIdx++];
+
+			const red = rgb;
+			const green = rgb;
+			const blue = rgb;
+			const alpha = this.#data.data[dataIdx++];
+
+			imgData.data[idx++] = red;
+			imgData.data[idx++] = green;
+			imgData.data[idx++] = blue;
+			imgData.data[idx++] = alpha;
+		}
+
+		this.#ctx.putImageData(imgData, 0, 0);
 	}
 
 	/**
 	 * @param {ImageData} imgData
 	 */
 	#renderRgba(imgData) {
-		throw new Error("Method not implemented.");
+		let idx = 0;
+		let dataIdx = 0;
+		const len = this.#data.header.width * this.#data.header.height * 4;
+
+		while (idx < len) {
+			const red = this.#data.data[dataIdx++];
+			const green = this.#data.data[dataIdx++];
+			const blue = this.#data.data[dataIdx++];
+			const alpha = this.#data.data[dataIdx++];
+
+			imgData.data[idx++] = red;
+			imgData.data[idx++] = green;
+			imgData.data[idx++] = blue;
+			imgData.data[idx++] = alpha;
+		}
+
+		this.#ctx.putImageData(imgData, 0, 0);
 	}
 }
 
