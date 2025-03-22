@@ -51,6 +51,18 @@ class PngHeader {
 	 */
 	#interlaceMethd;
 
+	/**
+	 * @type {number}
+	 */
+	#bpp;
+
+	/**
+	 * @type {number}
+	 * The real width of the image
+	 * Width * bpp
+	 */
+	#realWidth;
+
 	static HEADER_LENGTH = 13;
 
 	/**
@@ -102,6 +114,14 @@ class PngHeader {
 		return this.#interlaceMethd;
 	}
 
+	get bpp() {
+		return this.#bpp;
+	}
+
+	get realWidth() {
+		return this.#realWidth;
+	}
+
 	/**
 	 * @returns {boolean}
 	 */
@@ -132,6 +152,8 @@ class PngHeader {
 		this.#compressionMethod = this.#chunk.chunkData[10];
 		this.#filterMethod = this.#chunk.chunkData[11];
 		this.#interlaceMethd = this.#chunk.chunkData[12];
+		this.#bpp = this.#calculateBPP();
+		this.#realWidth = this.#width * this.#bpp;
 	}
 
 	/**
@@ -171,6 +193,31 @@ class PngHeader {
 
 			default:
 				return false;
+		}
+	}
+
+	/**
+	 * @returns {number}
+	 */
+	#calculateBPP() {
+		switch (this.colorType) {
+			case 0:
+				return this.bitDepth / 8;
+
+			case 2:
+				return 3 * (this.bitDepth / 8);
+
+			case 3:
+				return 1;
+
+			case 4:
+				return 2 * (this.bitDepth / 8);
+
+			case 6:
+				return 4 * (this.bitDepth / 8);
+
+			default:
+				throw new Error("Invalid color type.");
 		}
 	}
 }

@@ -15,10 +15,11 @@
 
 const { PNG_SIGNATURE } = require("src/const");
 const PngChunk = require("./chunk");
-const { assert, flattenChunks, MAX_UINT_8BIT } = require("@image-parser/utils");
+const { assert, flattenChunks } = require("@image-parser/utils");
 const PngHeader = require("./header");
 const { inflate } = require("pako");
 const PngData = require("./data");
+const PngFilter = require("./filter");
 
 class PngDecoder {
 	/**
@@ -118,20 +119,15 @@ class PngDecoder {
 
 	decode() {
 		const decompressedIDAT = this.#decompressIDATChunks();
-		const bpp = this.#getBpp();
-		const columnLength = this.#pngHeader.width * bpp;
-
-		const decodedIDATChunks = this.#decodeFilter(
+		const decodedIDATChunks = PngFilter.reversePngFilter(
 			decompressedIDAT,
-			columnLength,
-			bpp
+			this.#pngHeader
 		);
 
 		return new PngData(
 			this.#pngHeader,
 			decodedIDATChunks,
-			this.#getPlteChunk(),
-			bpp
+			this.#getPlteChunk()
 		);
 	}
 
@@ -170,193 +166,10 @@ class PngDecoder {
 		return null;
 	}
 
-	/**
-	 * @param {number} a
-	 * @param {number} b
-	 * @param {number} c
-	 *
-	 * @returns {number}
-	 */
-	#paethPredictor(a, b, c) {
-		const p = a + b - c;
-		const pa = Math.abs(p - a);
-		const pb = Math.abs(p - b);
-		const pc = Math.abs(p - c);
-
-		if (pa <= pb && pa <= pc) {
-			return a;
-		}
-
-		if (pb <= pc) {
-			return b;
-		}
-
-		return c;
-	}
-
-	/**
-	 * @param {Uint8Array} row
-	 * @param {Uint8Array | undefined} prevDecodedRow
-	 * @param {number} bpp
-	 *
-	 * @returns {Uint8Array}
-	 */
-	#decodePaethFilter(row, prevDecodedRow, bpp) {
-		for (let x = 0, l = row.length; x < l; ++x) {
-			const prior = prevDecodedRow ? prevDecodedRow[x] : 0;
-			const raw = x < bpp ? 0 : row[x - bpp];
-			const priorRaw = prevDecodedRow
-				? x < bpp
-					? 0
-					: prevDecodedRow[x - bpp]
-				: 0;
-
-			row[x] = (row[x] + this.#paethPredictor(raw, prior, priorRaw)) & MAX_UINT_8BIT;
-		}
-
-		return row;
-	}
-
-	/**
-	 * @param {Uint8Array} row
-	 * @param {Uint8Array | undefined} prevDecodedRow
-	 * @param {number} bpp
-	 *
-	 * @returns {Uint8Array}
-	 */
-	#decodeAverageFilter(row, prevDecodedRow, bpp) {
-		for (let x = 0, l = row.length; x < l; ++x) {
-			const prior = prevDecodedRow ? prevDecodedRow[x] : 0;
-			const raw = x < bpp ? 0 : row[x - bpp];
-
-			row[x] = (row[x] + Math.floor((raw + prior) / 2)) & MAX_UINT_8BIT;
-		}
-
-		return row;
-	}
-
-	/**
-	 * @param {Uint8Array} row
-	 * @param {Uint8Array | undefined} prevDecodedRow
-	 *
-	 * @returns {Uint8Array}
-	 */
-	#decodeUpFilter(row, prevDecodedRow) {
-		for (let x = 0, l = row.length; x < l; ++x) {
-			row[x] =
-				(row[x] + (prevDecodedRow ? prevDecodedRow[x] : 0)) &
-				MAX_UINT_8BIT;
-		}
-
-		return row;
-	}
-
-	/**
-	 * @param {Uint8Array} row
-	 * @param {number} bpp
-	 *
-	 * @returns {Uint8Array}
-	 */
-	#decodeSubFilter(row, bpp) {
-		for (let x = 0, l = row.length; x < l; ++x) {
-			if (x >= bpp) {
-				row[x] = (row[x] + row[x - bpp]) & MAX_UINT_8BIT;
-			}
-		}
-
-		return row;
-	}
-
-	/**
-	 * @param {number} filterType
-	 * @param {Uint8Array} row
-	 * @param {Uint8Array | undefined} prevDecodedRow
-	 * @param {number} bpp
-	 *
-	 * @returns {Uint8Array}
-	 */
-	#decodeRow(filterType, row, prevDecodedRow, bpp) {
-		switch (filterType) {
-			case 0:
-				return row;
-
-			case 1:
-				return this.#decodeSubFilter(row, bpp);
-
-			case 2:
-				return this.#decodeUpFilter(row, prevDecodedRow);
-
-			case 3:
-				return this.#decodeAverageFilter(row, prevDecodedRow, bpp);
-
-			case 4:
-				return this.#decodePaethFilter(row, prevDecodedRow, bpp);
-
-			default:
-				throw new Error("Invalid filter type.");
-		}
-	}
-
-	/**
-	 *
-	 * @param {Uint8Array} decompressedIDAT
-	 * @param {number} columnLength
-	 * @param {number} bpp
-	 *
-	 * @returns {Uint8Array}
-	 */
-	#decodeFilter(decompressedIDAT, columnLength, bpp) {
-		// Since decompressedIDAT is 1D, we need an index
-		// to base on to get the specific rows/scanline.
-		let idx = 0;
-		/**
-		 * @type {Uint8Array | undefined}
-		 */
-		let latestDecodedRow;
-
-		for (let y = 0; y < this.#pngHeader.height; ++y) {
-			const filterType = decompressedIDAT[idx++];
-			const row = decompressedIDAT.slice(idx, (idx += columnLength));
-			const decodedRow = this.#decodeRow(
-				filterType,
-				row,
-				latestDecodedRow,
-				bpp
-			);
-
-			latestDecodedRow = decodedRow;
-			decompressedIDAT.set(decodedRow, y * columnLength);
-		}
-
-		return decompressedIDAT;
-	}
-
 	#decompressIDATChunks() {
 		return inflate(
 			flattenChunks(this.#pngIDATChunks.map((idat) => idat.chunkData))
 		);
-	}
-
-	#getBpp() {
-		switch (this.#pngHeader.colorType) {
-			case 0:
-				return this.#pngHeader.bitDepth / 8;
-
-			case 2:
-				return 3 * (this.#pngHeader.bitDepth / 8);
-
-			case 3:
-				return 1;
-
-			case 4:
-				return 2 * (this.#pngHeader.bitDepth / 8);
-
-			case 6:
-				return 4 * (this.#pngHeader.bitDepth / 8);
-
-			default:
-				throw new Error("Invalid color type.");
-		}
 	}
 
 	#initPngChunks() {

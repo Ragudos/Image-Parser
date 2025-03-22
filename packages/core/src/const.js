@@ -47,7 +47,7 @@ const PNG_COLOR_TYPES = Object.freeze({
 	rgbAlpha: 6,
 });
 
-const FILTER_TYPES = Object.freeze({
+const PNG_FILTER_TYPES = Object.freeze({
 	None: 0,
 	Sub: 1,
 	Up: 2,
@@ -63,4 +63,5 @@ module.exports = {
 	MAX_UPPERCASE_CHARACTER_ASCII_CODE,
 	PNG_SIGNATURE,
 	PNG_COLOR_TYPES,
+	PNG_FILTER_TYPES
 };

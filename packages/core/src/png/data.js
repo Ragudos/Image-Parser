@@ -13,22 +13,16 @@ class PngData {
 	 * @type {Uint8Array | null}
 	 */
 	#plte;
-	/**
-	 * @type {number}
-	 */
-	#bpp;
 
 	/**
 	 * @param {PngHeader} header
 	 * @param {Uint8Array} data
 	 * @param {Uint8Array | null} plte
-	 * @param {number} bpp
 	 */
-	constructor(header, data, plte, bpp) {
+	constructor(header, data, plte) {
 		this.#header = header;
 		this.#data = data;
 		this.#plte = plte;
-		this.#bpp = bpp;
 	}
 
 	get header() {
@@ -41,10 +35,6 @@ class PngData {
 
 	get plte() {
 		return this.#plte;
-	}
-
-	get bpp() {
-		return this.#bpp;
 	}
 }
 
